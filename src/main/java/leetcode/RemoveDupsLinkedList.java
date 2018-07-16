@@ -6,19 +6,22 @@ public class RemoveDupsLinkedList {
 		ListNode first = new ListNode(1);
 		first.next = new ListNode(1);
 		first.next.next = new ListNode(2);
-		ListNode mylist = deleteDuplicates(first);
+		ListNode mylist = deleteDuplicates2(first);
 		System.out.println(mylist);
 		
 		first = new ListNode(1);
 		first.next = new ListNode(1);
-		first.next.next = new ListNode(2);
+		first.next.next = new ListNode(1);
 		first.next.next.next = new ListNode(3);
 		first.next.next.next.next = new ListNode(3);
-		mylist = deleteDuplicates(first);
+		mylist = deleteDuplicates2(first);
 		System.out.println(mylist);
 		
 		first = new ListNode(9);
-		mylist = deleteDuplicates(first);
+		mylist = deleteDuplicates2(first);
+		System.out.println(mylist);
+		
+		mylist = deleteDuplicates2(null);
 		System.out.println(mylist);
 	}
 
@@ -32,5 +35,17 @@ public class RemoveDupsLinkedList {
 		} else {
 			return head.next;
 		}
+	}
+	
+	public static ListNode deleteDuplicates2(ListNode head) {
+	    ListNode current = head;
+	    while (current != null && current.next != null) {
+	        if (current.next.val == current.val) {
+	            current.next = current.next.next;
+	        } else {
+	            current = current.next;
+	        }
+	    }
+	    return head;
 	}
 }
