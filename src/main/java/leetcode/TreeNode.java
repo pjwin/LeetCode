@@ -23,12 +23,17 @@ public class TreeNode {
 			return false;
 		return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 	}
+	
+	public static int maxDepth(TreeNode node) {
+		if (node == null) return 0;
+		return 1 + Math.max(maxDepth(node.left), maxDepth(node.right));
+	}
 
 	public static ArrayList<Integer> toArray(TreeNode node) {
 		ArrayList<Integer> arrList = new ArrayList<>();
 		return toArrayHelper(node, arrList, 0);
 	}
-
+    
 	private static ArrayList<Integer> toArrayHelper(TreeNode node, ArrayList<Integer> arrList, int i) {
 		if (node == null) {
 			return null;
@@ -149,7 +154,8 @@ public class TreeNode {
 		// p.right.right = new TreeNode(7);
 //		System.out.println(isSymmetric2(p));
 //		System.out.println("\nlevel order:");
-		printLevelOrder(p);
+//		printLevelOrder(p);
+		System.out.println(maxDepth(p));
 	}
 
 }
