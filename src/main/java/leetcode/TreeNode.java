@@ -27,42 +27,9 @@ public class TreeNode {
 		p.left.left = new TreeNode(3);
 		p.left.left.left = new TreeNode(4);
 		p.left.left.left.left = new TreeNode(5);
-		delete(p, 4);
+		System.out.println(levelOrderBottom(p));
+//		delete(p, 4);
 		System.out.println();
-	}
-
-	public static List<List<Integer>> levelOrderBottom(TreeNode root) {
-		if (root == null) {
-			return new ArrayList<>();
-		}
-		List<List<Integer>> result = new ArrayList<>();
-		List<Integer> toplevel = new ArrayList<>();
-		Queue<TreeNode> queue = new LinkedList<>();
-		queue.add(root);
-		toplevel.add(root.val);
-		result.add(toplevel);
-		int i = 1;
-		while (!queue.isEmpty()) {
-			TreeNode tempNode = queue.poll();
-			if (tempNode.left != null) {
-				queue.add(tempNode.left);
-			} else
-				i++;
-			if (tempNode.right != null) {
-				queue.add(tempNode.right);
-			} else
-				i++;
-			i++;
-			if (Math.log(i) / Math.log(2) % 1 == 0 && !queue.isEmpty()) {
-				System.out.println(i);
-				List<Integer> level = new ArrayList<>();
-				for (TreeNode t : queue) {
-					level.add(t.val);
-				}
-				result.add(0, level);
-			}
-		}
-		return result;
 	}
 
 	public static int maxDepth(TreeNode node) {
@@ -75,8 +42,6 @@ public class TreeNode {
 		Queue<TreeNode> q = new LinkedList<>();
 		q.add(temp);
 
-		// Do level order traversal until we find
-		// an empty place.
 		while (!q.isEmpty()) {
 			temp = q.peek();
 			q.remove();
@@ -84,14 +49,16 @@ public class TreeNode {
 			if (temp.left == null) {
 				temp.left = new TreeNode(key);
 				break;
-			} else
+			} else {
 				q.add(temp.left);
+			}
 
 			if (temp.right == null) {
 				temp.right = new TreeNode(key);
 				break;
-			} else
+			} else {
 				q.add(temp.right);
+			}
 		}
 	}
 	
@@ -176,6 +143,29 @@ public class TreeNode {
 		}
 	}
 
+	public static List<List<Integer>> levelOrderBottom(TreeNode root) {
+	    List<List<Integer>> result = new ArrayList<List<Integer>>();
+	    if(root == null) return result;
+	    Queue<TreeNode> q = new LinkedList<>();
+	    q.add(root);
+	    while(q.size() > 0){
+	        List<Integer> list = new LinkedList<>();
+	        int size = q.size();
+	        for(int i = 0; i < size; i++){
+	            TreeNode node = q.poll();
+	            list.add(node.val);
+	            if(node.left != null) {
+	            	q.add(node.left);
+	            }
+	            if(node.right != null) {
+	            	q.add(node.right);
+	            }
+	        }
+	        result.add(0, list);
+	    }
+	    return result;
+	}
+	
 	public static boolean isSymmetric(TreeNode root) {
 		if (root == null)
 			return true;
