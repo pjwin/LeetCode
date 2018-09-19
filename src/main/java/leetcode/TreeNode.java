@@ -3,9 +3,7 @@ package leetcode;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 public class TreeNode {
@@ -13,84 +11,81 @@ public class TreeNode {
 	TreeNode left;
 	TreeNode right;
 
-	TreeNode() {
-	}
-
 	TreeNode(int x) {
 		val = x;
 	}
 
-	public static void main(String[] args) {
-		TreeNode p = new TreeNode(1);
-		p.left = new TreeNode(2);
-		p.right = new TreeNode(6);
-		p.left.left = new TreeNode(3);
-		p.left.left.left = new TreeNode(4);
-		p.left.left.left.left = new TreeNode(5);
-		System.out.println(levelOrderBottom(p));
-//		delete(p, 4);
-		System.out.println();
+	public TreeNode sortedArrayToBST(int[] nums) {
+		// TODO
+		return null;
 	}
 
-	public static int maxDepth(TreeNode node) {
+	public void insert(int key) {
+		TreeNode node = this;
+		while (node != null && node.val != key) {
+			if (key < node.val) {
+				if (node.left == null) {
+					node.left = new TreeNode(key);
+					node = null;
+				} else {
+					node = node.left;
+				}
+			} else if (key > node.val) {
+				if (node.right == null) {
+					node.right = new TreeNode(key);
+					node = null;
+				} else {
+					node = node.right;
+				}
+			}
+		}
+	}
+
+	public boolean delete(int key) {
+		// TODO
+		return false;
+	}
+
+	public TreeNode search(int key) {
+		TreeNode node = this;
+		while (node != null && node.val != key) {
+			if (key < node.val) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+		}
+		return node;
+	}
+
+	public int maxDepth(TreeNode node) {
 		if (node == null)
 			return 0;
 		return 1 + Math.max(maxDepth(node.left), maxDepth(node.right));
 	}
 
-	static void insert(TreeNode temp, int key) {
-		Queue<TreeNode> q = new LinkedList<>();
-		q.add(temp);
-
-		while (!q.isEmpty()) {
-			temp = q.peek();
-			q.remove();
-
-			if (temp.left == null) {
-				temp.left = new TreeNode(key);
-				break;
-			} else {
-				q.add(temp.left);
-			}
-
-			if (temp.right == null) {
-				temp.right = new TreeNode(key);
-				break;
-			} else {
-				q.add(temp.right);
-			}
+	public TreeNode min() {
+		TreeNode node = this;
+		while (node.left != null) {
+			node = node.left;
 		}
+		return node;
 	}
-	
-	static void delete(TreeNode node, int key) {
-		Queue<TreeNode> queue = new LinkedList<>();
-		queue.add(node);
-		TreeNode tempNode = null;
-		TreeNode keyNode = null;
-		TreeNode prevNode = null; 
-		while (!queue.isEmpty()) {
-			prevNode = tempNode;
-			tempNode = queue.poll();
-			if (tempNode.val == key) {
-				keyNode = tempNode;
-			}
-			if (tempNode.left != null) {
-				queue.add(tempNode.left);
-			}
-			if (tempNode.right != null) {
-				queue.add(tempNode.right);
-			}
+
+	public TreeNode max() {
+		TreeNode node = this;
+		while (node.right != null) {
+			node = node.right;
 		}
-		keyNode.val = tempNode.val;
-		//delete tempnode
-		
+		return node;
 	}
-	public static ArrayList<Integer> toArray(TreeNode node) {
+
+	public ArrayList<Integer> toArray(TreeNode node) {
 		ArrayList<Integer> arrList = new ArrayList<>();
 		return toArrayHelper(node, arrList, 0);
 	}
 
-	private static ArrayList<Integer> toArrayHelper(TreeNode node, ArrayList<Integer> arrList, int i) {
+	private ArrayList<Integer> toArrayHelper(TreeNode node, ArrayList<Integer> arrList, int i) {
 		if (node == null) {
 			return null;
 		}
@@ -104,7 +99,7 @@ public class TreeNode {
 		return arrList;
 	}
 
-	static void printPreorder(TreeNode node) {
+	public void printPreorder(TreeNode node) {
 		if (node == null)
 			return;
 		System.out.print(node.val + " ");
@@ -112,7 +107,7 @@ public class TreeNode {
 		printPreorder(node.right);
 	}
 
-	static void printInorder(TreeNode node) {
+	public void printInorder(TreeNode node) {
 		if (node == null)
 			return;
 		printInorder(node.left);
@@ -120,7 +115,7 @@ public class TreeNode {
 		printInorder(node.right);
 	}
 
-	static void printPostorder(TreeNode node) {
+	public void printPostorder(TreeNode node) {
 		if (node == null)
 			return;
 		printPostorder(node.left);
@@ -128,7 +123,7 @@ public class TreeNode {
 		System.out.print(node.val + " ");
 	}
 
-	static void printLevelOrder(TreeNode node) {
+	public void printLevelOrder(TreeNode node) {
 		Queue<TreeNode> queue = new LinkedList<>();
 		queue.add(node);
 		while (!queue.isEmpty()) {
@@ -143,33 +138,67 @@ public class TreeNode {
 		}
 	}
 
-	public static List<List<Integer>> levelOrderBottom(TreeNode root) {
-	    List<List<Integer>> result = new ArrayList<List<Integer>>();
-	    if(root == null) return result;
-	    Queue<TreeNode> q = new LinkedList<>();
-	    q.add(root);
-	    while(q.size() > 0){
-	        List<Integer> list = new LinkedList<>();
-	        int size = q.size();
-	        for(int i = 0; i < size; i++){
-	            TreeNode node = q.poll();
-	            list.add(node.val);
-	            if(node.left != null) {
-	            	q.add(node.left);
-	            }
-	            if(node.right != null) {
-	            	q.add(node.right);
-	            }
-	        }
-	        result.add(0, list);
-	    }
-	    return result;
+	public void printTree() {
+		TreeNode root = this;
+		List<List<String>> result = new ArrayList<List<String>>();
+		Queue<TreeNode> q = new LinkedList<>();
+		q.add(root);
+		result.add(0, Arrays.asList(String.valueOf(q.peek().val)));
+		while (q.size() > 0) {
+			List<String> list = new LinkedList<>();
+			int size = q.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode node = q.poll();
+				if (node.left != null) {
+					q.add(node.left);
+					list.add(String.valueOf(node.left.val));
+				} else {
+					list.add("null");
+				}
+				if (node.right != null) {
+					q.add(node.right);
+					list.add(String.valueOf(node.right.val));
+				} else {
+					list.add("null");
+				}
+
+			}
+			if (!list.stream().allMatch(i -> i.equalsIgnoreCase("null"))) {
+				result.add(list);
+			}
+		}
+		for (List<String> l : result) {
+			System.out.println(l);
+		}
+	}
+
+	public static List<List<String>> levelOrderBottom(TreeNode root) {
+		List<List<String>> result = new ArrayList<List<String>>();
+		if (root == null)
+			return result;
+		Queue<TreeNode> q = new LinkedList<>();
+		q.add(root);
+		while (q.size() > 0) {
+			List<String> list = new LinkedList<>();
+			int size = q.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode node = q.poll();
+				list.add(String.valueOf(node.val));
+				if (node.left != null) {
+					q.add(node.left);
+				}
+				if (node.right != null) {
+					q.add(node.right);
+				}
+
+			}
+			result.add(0, list);
+		}
+		return result;
 	}
 	
-	public static boolean isSymmetric(TreeNode root) {
-		if (root == null)
-			return true;
-		return isSymmetricHelper(root.left, root.right);
+	public boolean isSymmetric() {
+		return isSymmetricHelper(this.left, this.right);
 	}
 
 	public static boolean isSymmetricHelper(TreeNode left, TreeNode right) {
@@ -178,8 +207,12 @@ public class TreeNode {
 		return left.val == right.val && isSymmetricHelper(left.left, right.right)
 				&& isSymmetricHelper(left.right, right.left);
 	}
-
-	public static boolean isSameTree(TreeNode p, TreeNode q) {
+	
+	public boolean isSameTree(TreeNode q) {
+		return isSameTree(this, q);
+	}
+	
+	public boolean isSameTree(TreeNode p, TreeNode q) {
 		if (p == null && q == null)
 			return true;
 		if (p == null || q == null)
