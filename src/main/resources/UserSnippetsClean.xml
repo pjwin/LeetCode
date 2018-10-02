@@ -1,0 +1,317 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<snippets>
+   <group category="Custom" language="PLSQL">
+      <snippet name="get count desc" description="">
+         <code>
+            <![CDATA[select
+  column_a,
+  count(*)
+from
+  table_a
+group by
+  column_a
+order by
+  count(*) desc;]]>
+         </code>
+      </snippet>
+      <snippet name="csv bind variable" description="">
+         <code>
+            <![CDATA[SELECT LTRIM(REGEXP_SUBSTR(:bind_var, '[^,]+', 1, LEVEL))
+FROM DUAL
+CONNECT BY REGEXP_SUBSTR(:bind_var, '[^,]+', 1, LEVEL)
+IS NOT NULL]]>
+         </code>
+      </snippet>
+      <snippet name="all dirs" description="">
+         <code>
+            <![CDATA[select * from all_directories order by directory_name;]]>
+         </code>
+      </snippet>
+      <snippet name="file write test" description="">
+         <code>
+            <![CDATA[DECLARE
+  v_out_file UTL_FILE.FILE_TYPE;
+BEGIN   
+  v_out_file := SYS.UTL_FILE.FOPEN('DIRECTORY_NAME', 'test.txt', 'W');
+  UTL_FILE.PUT( v_out_file, 'this is some test string'); 
+  UTL_FILE.FCLOSE(v_out_file);
+END;
+/]]>
+         </code>
+      </snippet>
+      <snippet name="generate a-z" description="">
+         <code>
+            <![CDATA[with nums as
+(
+select 
+	chr( ascii('A')+level-1 ) letter
+from
+	dual
+connect by 
+	level <= 26
+)]]>
+         </code>
+      </snippet>
+      <snippet name="anonymous block" description="">
+         <code>
+            <![CDATA[DECLARE
+  var1 VARCHAR2(20) := 'value';
+BEGIN   
+  DBMS_OUTPUT.PUT_LINE('Var1 ' || var1);
+END;
+/]]>
+         </code>
+      </snippet>
+      <snippet name="dynamic query sql injection" description="">
+         <code>
+            <![CDATA[DECLARE
+  v_query VARCHAR2(100);
+  i_input VARCHAR2(100);
+BEGIN
+  --BAD, For a dynamic query, the whole String will be executed.
+  v_query := 'UPDATE ABC SET DPC = ''1'' WHERE ABC_ID = ' + i_input;
+  
+  EXECUTE IMMEDIATE v_query;
+  
+END;
+/
+
+DECLARE
+  v_query VARCHAR2(100);
+  i_input VARCHAR2(100);
+BEGIN
+  --GOOD, PL/SQL handles reference variables as bind variables.
+  i_input := '1';
+  UPDATE ABC SET DPC = '1' WHERE ABC_ID = i_input;
+  
+END;
+/ ]]>
+         </code>
+      </snippet>
+      <snippet name="select first day last month" description="">
+         <code>
+            <![CDATA[select TRUNC(ADD_MONTHS(SYSDATE, -1), 'MONTH') from dual;]]>
+         </code>
+      </snippet>
+      <snippet name="match_recognize" description="">
+         <code>
+            <![CDATA[WITH DUMMY_TNS AS (
+  SELECT '9871011010' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321001000' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321001001' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321001002' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321001100' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321009999' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321010000' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '7321010001' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '9871001002' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '9871001006' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '9871001007' "TN"
+  FROM DUAL
+  UNION ALL
+  SELECT '9871011008' "TN"
+  FROM DUAL
+),
+dummy2 as
+(
+select
+  tn, 
+  substr(tn,1,6) as block
+from
+  DUMMY_TNS
+)
+select * from dummy2
+match_recognize(
+  partition by
+    block
+  order by
+    tn
+  measures
+    first(tn) start_tn,
+    last(tn) end_tn
+  pattern(start_rec next_rec*)
+  define 
+    next_rec as tn = prev(tn) + 1
+);
+]]>
+         </code>
+      </snippet>
+      <snippet name="generate 0-9" description="">
+         <code>
+            <![CDATA[SELECT '-1' + LEVEL X FROM DUAL CONNECT BY LEVEL <= 10]]>
+         </code>
+      </snippet>
+      <snippet name="file write compare" description="">
+         <code>
+            <![CDATA[DECLARE
+  v_out_file UTL_FILE.FILE_TYPE;
+BEGIN   
+  v_out_file := SYS.UTL_FILE.FOPEN('DIRECTORY_NAME', 'test.txt', 'W');
+  UTL_FILE.PUT(v_out_file, 'utl_file.put' || chr(13) || chr(10));
+  UTL_FILE.PUT_LINE(v_out_file, 'utl_file.put_line' || chr(13) || chr(10));
+  UTL_FILE.PUT_RAW(v_out_file, utl_raw.cast_to_raw('utl_file.put_raw' || chr(13) || chr(10)));
+  UTL_FILE.FCLOSE(v_out_file);
+END;
+/]]>
+         </code>
+      </snippet>
+      <snippet name="in dst?" description="">
+         <code>
+            <![CDATA[SELECT
+  CASE
+    WHEN TZ_OFFSET('America/Chicago') = TO_CHAR(EXTRACT(HOUR FROM MAX(OFFSET)),'sfm09') || ':' || TO_CHAR(EXTRACT(MINUTE FROM MAX(OFFSET)),'fm09') THEN '1'
+    ELSE '0'
+  END DST
+FROM
+(
+  SELECT
+    CAST(T AT TIME ZONE 'America/Chicago' AS TIMESTAMP) - CAST(T AS TIMESTAMP) OFFSET
+  FROM
+    (
+      SELECT
+        TO_TIMESTAMP_TZ('2011-01-01 GMT','YYYY-MM-DD TZR') + NUMTOYMINTERVAL(LEVEL - 1,'MONTH') T
+      FROM
+        DUAL
+      CONNECT BY
+        LEVEL <= 12
+    )
+);]]>
+         </code>
+      </snippet>
+      <snippet name="date vs timestamp comparison" description="">
+         <code>
+            <![CDATA[select
+  sysdate - 1/24,
+  case
+    when sysdate - 1/24 < systimestamp then 'less than'
+    when sysdate - 1/24 = systimestamp then 'equal'
+    when sysdate - 1/24 > systimestamp then 'greater than'
+  end "is not",
+  systimestamp,
+  ' ' "but",
+  sysdate - 1/24,
+  case
+    when sysdate - 1/24 < cast(systimestamp as date) then 'less than'
+    when sysdate - 1/24 = cast(systimestamp as date) then 'equal'
+    when sysdate - 1/24 > cast(systimestamp as date) then 'greater than'
+  end "is",
+  cast(systimestamp as date)
+from
+  dual;]]>
+         </code>
+      </snippet>
+      <snippet name="day 1 last month and this month ct to utc" description="">
+         <code>
+            <![CDATA[select
+  cast(from_tz(cast(add_months(trunc(systimestamp at time zone 'America/Chicago', 'MM'), -1) as timestamp), 'America/Chicago') at time zone 'GMT' as date) FIRST_DAY_LAST_MONTH_UTC
+from
+  dual;
+
+select
+  cast(from_tz(cast(trunc(systimestamp at time zone 'America/Chicago', 'MM') as timestamp), 'America/Chicago') at time zone 'GMT' as date) FIRST_DAY_LAST_MONTH_UTC
+from
+  dual;]]>
+         </code>
+      </snippet>
+      <snippet name="Get Current Quarter in CST to GMT" description="">
+         <code>
+            <![CDATA[SELECT
+  NEW_TIME(TRUNC(NEW_TIME(SYSDATE, 'GMT', 'CST'), 'Q'), 'CST', 'GMT')
+FROM
+  INPUT;]]>
+         </code>
+      </snippet>
+      <snippet name="all_indexes" description="">
+         <code>
+            <![CDATA[SELECT
+  *
+FROM
+  ALL_INDEXES
+WHERE
+  OWNER = 'OWNERNAME'
+AND
+  INDEX_NAME = 'INDEX_123']]>
+         </code>
+      </snippet>
+      <snippet name="all_tables" description="">
+         <code>
+            <![CDATA[SELECT
+  *
+FROM
+  ALL_TABLES
+WHERE
+  TABLE_NAME = 'MY_TABLE';]]>
+         </code>
+      </snippet>
+      <snippet name="Job Log" description="">
+         <code>
+            <![CDATA[SELECT
+  *
+FROM
+  USER_SCHEDULER_JOB_LOG;]]>
+         </code>
+      </snippet>
+      <snippet name="dbms_lock" description="">
+         <code>
+            <![CDATA[declare
+  v_lockhandle varchar2(200);
+  v_result     number;
+begin
+  dbms_lock.allocate_unique('testlock', v_lockhandle);
+  v_result := dbms_lock.request(v_lockhandle, dbms_lock.nl_mode);
+  if v_result <> 0 then
+    dbms_output.put_line(
+           case 
+              when v_result=1 then 'Timeout'
+              when v_result=2 then 'Deadlock'
+              when v_result=3 then 'Parameter Error'
+              when v_result=4 then 'Already owned'
+              when v_result=5 then 'Illegal Lock Handle'
+            end);
+  end if;
+end;
+/
+
+declare
+  v_lockhandle varchar2(200);
+  v_result     number;
+begin
+  dbms_lock.allocate_unique('testlock', v_lockhandle);
+  dbms_output.put_line(v_lockhandle);
+  v_result := dbms_lock.release(v_lockhandle);
+  if v_result <> 0 then 
+    dbms_output.put_line(
+           case 
+              when v_result=1 then 'Timeout'
+              when v_result=2 then 'Deadlock'
+              when v_result=3 then 'Parameter Error'
+              when v_result=4 then 'Already owned'
+              when v_result=5 then 'Illegal Lock Handle'
+            end);
+  end if;
+end;
+/]]>
+         </code>
+      </snippet>
+   </group>
+</snippets>

@@ -219,5 +219,4 @@ public class TreeNode {
 			return false;
 		return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 	}
-
 }
