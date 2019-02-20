@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FindDisapearedNumbers {
+public class FindDisappearedNumbers {
 
 	public static void main(String[] args) {
 		findDisappearedNumbers(new int[] {4,3,2,7,8,2,3,1});
