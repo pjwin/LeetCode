@@ -15,9 +15,43 @@ public class TreeNode {
 		val = x;
 	}
 
-	public TreeNode sortedArrayToBST(int[] nums) {
-		// TODO
-		return null;
+	public static TreeNode sortedArrayToBST(int[] nums) {
+		if (nums == null || nums.length == 0) return null;
+		int mid = nums.length / 2;
+		TreeNode tmid = new TreeNode(nums[mid]);
+		TreeNode temp = tmid;
+		for (int i = mid - 1; i >= 0; i--) {
+			temp.left = new TreeNode(nums[i]);
+			temp = temp.left;
+		}
+		temp = tmid;
+		for (int i = mid + 1; i < nums.length; i++) {
+			temp.right = new TreeNode(nums[i]);
+			temp = temp.right;
+		}
+		return tmid;
+	}
+	
+	public static TreeNode sortedArrayToBST2(int[] nums) {
+		if (nums == null || nums.length == 0) return null;
+		int mid = nums.length / 2;
+		TreeNode tmid = new TreeNode(nums[mid]);
+		for (int i = nums.length - 1; i >= 0; i--) {
+			if (i == mid) continue;
+			tmid.insert(nums[i]);
+		}
+		return tmid;
+	}
+	
+	public static TreeNode sortedArrayToBST3(int[] nums) {
+		if (nums == null || nums.length == 0) return null;
+		int mid = nums.length / 2;
+		TreeNode tmid = new TreeNode(nums[mid]);
+		if (nums.length > 1) {
+			tmid.left = sortedArrayToBST3(Arrays.copyOfRange(nums, 0, mid));
+			tmid.right = sortedArrayToBST3(Arrays.copyOfRange(nums, mid + 1, nums.length));			
+		}
+		return tmid;
 	}
 
 	public void insert(int key) {
