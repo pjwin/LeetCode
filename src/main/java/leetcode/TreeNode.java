@@ -14,7 +14,33 @@ public class TreeNode {
 	TreeNode(int x) {
 		val = x;
 	}
-
+	
+	public  int minDepth(TreeNode root) {
+        if(root == null) return 0;
+        int l = minDepth(root.left);
+        int r = minDepth(root.right);
+        if (l == 0) l = r;
+        if (r == 0) r = l;
+        return 1 + Math.min(l, r);
+	}
+	
+    boolean result = true;
+    public boolean isBalanced(TreeNode root) {
+        isBalancedHelper(root);
+        return result;
+    }
+    
+    public int isBalancedHelper(TreeNode root){
+        if(root == null) return 0;
+        int l = isBalancedHelper(root.left);
+        int r = isBalancedHelper(root.right);
+        if(Math.abs(l - r) > 1){
+            result = false;
+            return 0; //exit recursion
+        }
+        return 1 + Math.max(l, r);
+    }
+    
 	public static TreeNode sortedArrayToBST(int[] nums) {
 		if (nums == null || nums.length == 0) return null;
 		int mid = nums.length / 2;
@@ -92,7 +118,7 @@ public class TreeNode {
 		return node;
 	}
 
-	public int maxDepth(TreeNode node) {
+	public static int maxDepth(TreeNode node) {
 		if (node == null)
 			return 0;
 		return 1 + Math.max(maxDepth(node.left), maxDepth(node.right));
