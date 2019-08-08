@@ -30,4 +30,10 @@ public class Palindrome {
 	    }
 	    return (x == rev || x == rev / 10);
 	}
+	
+    public boolean isPalindrome(String s) {
+        if (s == null) return false;
+		StringBuilder sb = new StringBuilder(s.replaceAll("[^a-zA-Z0-9]", ""));
+		return sb.toString().equalsIgnoreCase(sb.reverse().toString());
+    }
 }
