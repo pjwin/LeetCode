@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ListNode {
 	int val;
 	ListNode next;
@@ -49,7 +52,7 @@ public class ListNode {
 			return l2;
 		}
 	}
-	
+
 	public static ListNode mergeTwoLists3(ListNode l1, ListNode l2) {
 		if (l1 == null) return l2;
 		if (l2 == null) return l1;
@@ -67,5 +70,46 @@ public class ListNode {
 		}
 		curr.next = l1 == null ? l2:l1;	
 		return dummy.next;
+	}
+	
+	public boolean hasCycle(ListNode head) {
+		if (head == null || head.next == null) return false;
+        Set<ListNode> myList = new HashSet<>();
+        while (head.next != null) {
+        	if (myList.add(head)) {
+        		head = head.next;
+        	} else {
+        		return true;
+        	}
+        }
+        return false;
+    }
+	
+	public static void main(String[] args) {
+		ListNode zero = new ListNode(3);
+		ListNode one = new ListNode(2);
+		ListNode two = new ListNode(0);
+		ListNode three = new ListNode(-4);
+		
+		zero.next = one;
+		one.next = two;
+		two.next = three;
+		three.next = one;
+		System.out.println(zero.hasCycle(zero));
+		
+		zero = new ListNode(1);
+		one = new ListNode(2);
+		zero.next = one;
+		one.next = zero;
+		System.out.println(zero.hasCycle(zero));
+		
+		zero = new ListNode(1);
+		System.out.println(zero.hasCycle(zero));
+		
+		zero = new ListNode(1);
+		one = new ListNode(2);
+		zero.next = one;
+		System.out.println(zero.hasCycle(zero));
+		
 	}
 }
