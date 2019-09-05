@@ -1,57 +1,42 @@
 package leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MinStack {
 	//https://leetcode.com/problems/min-stack/
-    private class Node {
-    	public int val;
-    	public Node next, prev;
-    }
+	private List<Integer> myStack;
 	
-    Node first;
-    Node last;
-    MinStack minStack;
-    
-	public MinStack() {
-        
+    public MinStack() {
+    	myStack = new ArrayList<>();
     }
     
     public void push(int x) {
-        if (first == null) {
-        	first = new Node();
-        	first.val = x;
-        	last = first;
-        	minStack.push(x);
-        } else {
-        	Node newNode = new Node();
-        	newNode.val = x;
-        	last.next = newNode;
-        	newNode.prev = last;
-        	last = newNode;
-        	if (x <= minStack.top()) minStack.push(x);
-        }
+    	myStack.add(x);
     }
     
     public void pop() {
-        
+        myStack.remove(myStack.size() - 1);
     }
     
     public int top() {
-        return last == null ? 0 : last.val;
+    	return myStack.get(myStack.size() - 1);
     }
     
     public int getMin() {
-    	return minStack == null ? 0 : minStack.top();
+    	return myStack.stream().mapToInt(x -> x).min().orElse(0);
     }
     
     public static void main(String[] args) {
     	MinStack minStack = new MinStack();
+    	System.out.println(minStack.getMin());
     	minStack.push(-2);
     	minStack.push(0);
     	minStack.push(-3);
-    	minStack.getMin();   //--> Returns -3.
+    	System.out.println(minStack.getMin());   //--> Returns -3.
     	minStack.pop();
-    	minStack.top();      //--> Returns 0.
-    	minStack.getMin();   //--> Returns -2.
+    	System.out.println(minStack.top());      //--> Returns 0.
+    	System.out.println(minStack.getMin());   //--> Returns -2.
 	}
 }
 
