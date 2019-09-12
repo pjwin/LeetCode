@@ -2,6 +2,9 @@ package leetcode;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HackerRank {
 
@@ -73,15 +76,37 @@ public class HackerRank {
     		totals[i] = total;
     	}
     	
-        return Arrays.stream(totals).min().getAsInt();
+    	int min = Integer.MAX_VALUE;
+    	for (int i : totals) {
+    		if (i < min) min = i;
+    	}
+    	
+        return min;
     }
+    
+    public static int pickingNumbers(List<Integer> a) {
+    	Map<Integer, Integer> mymap = new HashMap<>();
+    	for (int i: a) {
+    		mymap.put(i, mymap.getOrDefault(i, 0) + 1);
+    	}
+    	int max = Collections.max(mymap.values());
+    	int tmp = 0;
+    	for (Integer key : mymap.keySet()) {
+    		tmp = mymap.get(key) + mymap.getOrDefault(key + 1, 0);
+    		if (tmp > max) max = tmp;
+    	}
+    	return max;
+    }
+    
 
     
 	public static void main(String[] args) {
 //		System.out.println(pageCount2(5, 4));
 //		System.out.println(pageCount2(6, 2));
 //		System.out.println(getMoneySpent(new int[] {3, 1}, new int[] {5, 2, 8}, 10));
-		System.out.println(formingMagicSquare(new int[][]{{4,8,2},{4,5,7},{6,1,6}}));
+//		System.out.println(formingMagicSquare(new int[][]{{4,8,2},{4,5,7},{6,1,6}}));
+//		System.out.println(pickingNumbers(Arrays.asList(1,1,2,2,4,4,5,5,5)));
+		System.out.println(pickingNumbers(Arrays.asList(1,2,2,3,1,2)));
 	}
 
 }
