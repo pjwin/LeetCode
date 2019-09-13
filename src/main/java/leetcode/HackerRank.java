@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class HackerRank {
 
@@ -98,7 +100,32 @@ public class HackerRank {
     	return max;
     }
     
+    static int[] climbingLeaderboard(int[] scores, int[] alice) {
+    	//create return array;
+    	int[] ranks = new int[alice.length];
 
+    	//remove dups from scores
+    	int[] mynewScores = new int[scores.length];
+    	int j = 0;
+    	for (int i = 0; i < scores.length - 1; i++) {
+    		if (scores[i] != scores[i + 1]) {
+    			mynewScores[j++] = scores[i];
+    		}
+    	}
+    	//add last element
+    	mynewScores[j++] = scores[scores.length - 1];
+    	//j now equals actual size of mynewScores.
+    	
+    	//go through each of alice's scores
+    	for (int i = 0; i < alice.length; i++) {
+//    		while (alice[i] > )
+    	}
+        
+                
+        
+        return ranks;
+
+    }
     
 	public static void main(String[] args) {
 //		System.out.println(pageCount2(5, 4));
@@ -106,7 +133,8 @@ public class HackerRank {
 //		System.out.println(getMoneySpent(new int[] {3, 1}, new int[] {5, 2, 8}, 10));
 //		System.out.println(formingMagicSquare(new int[][]{{4,8,2},{4,5,7},{6,1,6}}));
 //		System.out.println(pickingNumbers(Arrays.asList(1,1,2,2,4,4,5,5,5)));
-		System.out.println(pickingNumbers(Arrays.asList(1,2,2,3,1,2)));
+//		System.out.println(pickingNumbers(Arrays.asList(1,2,2,3,1,2)));
+		System.out.println(climbingLeaderboard(new int[] {100,90,90,80,75,60}, new int[] {50, 65,77,90,102}));
 	}
 
 }
