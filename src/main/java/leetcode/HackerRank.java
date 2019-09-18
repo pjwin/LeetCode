@@ -127,6 +127,29 @@ public class HackerRank {
 
     }
     
+    static int beautifulDays(int i, int j, int k) {
+        int count = 0;
+        int y = 0;
+        for (int x = i; x <= j; x++) {
+            y = Integer.valueOf(new StringBuilder(Integer.toString(x)).reverse().toString());
+            if (Math.abs(x - y) % k == 0) count++;
+        }
+        return count;
+    }
+    
+    static int viralAdvertising(int n) {
+        int shared = 5;
+        int liked = 2;
+        int cumulative = 2;
+        for (int i = 2; i <= n; i++) {
+            shared = liked * 3;
+            liked = shared / 2;
+            cumulative += liked;
+        }
+
+        return cumulative;
+    }
+    
 	public static void main(String[] args) {
 //		System.out.println(pageCount2(5, 4));
 //		System.out.println(pageCount2(6, 2));
@@ -134,7 +157,14 @@ public class HackerRank {
 //		System.out.println(formingMagicSquare(new int[][]{{4,8,2},{4,5,7},{6,1,6}}));
 //		System.out.println(pickingNumbers(Arrays.asList(1,1,2,2,4,4,5,5,5)));
 //		System.out.println(pickingNumbers(Arrays.asList(1,2,2,3,1,2)));
-		System.out.println(climbingLeaderboard(new int[] {100,90,90,80,75,60}, new int[] {50, 65,77,90,102}));
+//		System.out.println(climbingLeaderboard(new int[] {100,90,90,80,75,60}, new int[] {50, 65,77,90,102}));
+//		System.out.println(beautifulDays(20, 23, 6));
+//		System.out.println(viralAdvertising(3));
+		System.out.println(3 % 5);
+		System.out.println(-3 % 5);
+		System.out.println(3 % -5);
+		System.out.println(-3 % -5);
+		
 	}
 
 }
