@@ -150,6 +150,42 @@ public class HackerRank {
         return cumulative;
     }
     
+    static int[] circularArrayRotation(int[] a, int k, int[] queries) {
+        //initialize output array
+        int[] values = new int[queries.length];
+        
+        //only count partial rotations
+        k = k % a.length;
+        for (int i = 0; i < queries.length; i++) {
+            if (i - 1 < (a.length / 2)) {
+            	values[i] = a[a.length - k + queries[i]];
+            } else {
+            	values[i] = a[queries[i] - k];
+            }
+        }
+
+        return values;
+    }
+    
+    static int[] permutationEquation(int[] p) {
+        int[] q = new int[p.length];
+        for (int i = 0; i < p.length; i++) {
+            q[i] = p[p[i] - 1];
+        }
+        return q;
+    }
+    
+    static int findDigits(int n) {
+    	int count = 0;
+        String temp = Integer.toString(n);
+        for (int i = 0; i < temp.length(); i++)
+        {
+            if ((temp.charAt(i) - '0') != 0 && n % (temp.charAt(i) - '0') == 0) count++;
+        }
+        
+        return count;
+    }
+    
 	public static void main(String[] args) {
 //		System.out.println(pageCount2(5, 4));
 //		System.out.println(pageCount2(6, 2));
@@ -160,11 +196,9 @@ public class HackerRank {
 //		System.out.println(climbingLeaderboard(new int[] {100,90,90,80,75,60}, new int[] {50, 65,77,90,102}));
 //		System.out.println(beautifulDays(20, 23, 6));
 //		System.out.println(viralAdvertising(3));
-		System.out.println(3 % 5);
-		System.out.println(-3 % 5);
-		System.out.println(3 % -5);
-		System.out.println(-3 % -5);
-		
+//		System.out.println(circularArrayRotation(new int[] {1,2,3,}, 2, new int[] {0,1,2}));
+//		System.out.println(permutationEquation(new int[] {5,2,1,3,4}));
+		System.out.println(findDigits(1012));
 	}
 
 }
