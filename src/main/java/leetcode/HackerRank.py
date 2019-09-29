@@ -66,5 +66,24 @@ def nonDivisibleSubset(k, s):
     return maxlength
 # arr = [1, 13, 3, 8, 14, 9, 4, 4]
 
+def repeatedString(s, n):
+    if (n == 0): return 0
+    count = 0
+    mylist = list()
+    for i, val in enumerate(s):
+        if val == 'a':
+            mylist.append(i)
+            
+    count += n / len(s) * len(mylist)
+    lo = n % len(s)
+    for i in mylist:
+        if i + 1 <= lo:
+            count += 1
+        else:
+            break
+        
+    return count
+    
+    
 arr = [19,10,12,10,24,25,22]
-print(nonDivisibleSubset(arr, 4))
+print(repeatedString('aba', 10))
