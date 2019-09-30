@@ -20,15 +20,9 @@ def appendAndDelete(s, t, k):
     if (k % 2 != (a + b) % 2):
         return "No"
     return "Yes"
-# print(appendAndDelete('y', 'yu', 2))
-
 
 def squares(a, b):
     count = 0
-    # for i in range(a, b + 1):
-    #     if (math.sqrt(i).is_integer()):
-    #         count += 1
-    # return count
     i = math.ceil(math.sqrt(a))
     square = math.pow(i, 2)
     while (square <= b):
@@ -36,6 +30,12 @@ def squares(a, b):
         i += 1
         square = math.pow(i, 2)
     return count
+
+def libraryFine(d1, m1, y1, d2, m2, y2):
+    if y1 > y2: return 10000
+    if m1 > m2 and y1 == y2: return (m1 - m2) * 500
+    if d1 > d2 and y1 == y2 and m1 == m2: return (d1 - d2) * 15
+    return 0
 
 def cutTheSticks(arr):
     mylist = []
@@ -64,7 +64,6 @@ def nonDivisibleSubset(k, s):
             mods[j] = 0
             if comp in mods: mods[comp] = 0
     return maxlength
-# arr = [1, 13, 3, 8, 14, 9, 4, 4]
 
 def repeatedString(s, n):
     if (n == 0): return 0
@@ -83,7 +82,25 @@ def repeatedString(s, n):
             break
         
     return count
-    
-    
-arr = [19,10,12,10,24,25,22]
-print(repeatedString('aba', 10))
+
+def jumpingOnClouds(c):
+    count = 0
+    i = 0
+    while i < len(c) - 1:
+        print(i)
+        if i + 2 < len(c) and c[i+2] != 1:
+            i += 2
+        else:
+            i += 1
+        count += 1
+    return count
+
+def equalizeArray(arr):
+    mydict = {}
+    for i in arr:
+        mydict[i] = mydict.get(i, 0) + 1   
+    return len(arr) - max(mydict.values())
+
+
+arr = [1,2,3,1,2,3,3,3]
+print(equalizeArray(arr))
