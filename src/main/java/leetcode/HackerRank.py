@@ -6,7 +6,16 @@ import random
 import re
 import sys
 
-# Complete the appendAndDelete function below.
+
+def extraLongFactorials(n):
+    mysum = n
+    i = n - 1
+    while (i > 1):
+        mysum *= i
+        i -= 1
+    print(mysum)
+    return mysum
+
 def appendAndDelete(s, t, k):
     if (s == t or k >= len(s) + len(t)):
         return "Yes"
