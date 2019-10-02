@@ -110,6 +110,99 @@ def equalizeArray(arr):
         mydict[i] = mydict.get(i, 0) + 1   
     return len(arr) - max(mydict.values())
 
+def queensAttack(n, k, r_q, c_q, obstacles):
+    r = r_q
+    c = c_q
+    count = 0
+    
+    if r in [item[0] for item in obstacles]:
+        print("yes")
+    
+    for i in obstacles:
+        print i[1]
+#     print("go left")
+    for c1 in range(c - 1, 0, -1):
+#         print(r, c1)
+        if [r, c1] in obstacles:
+            obstacles.remove([r, c1])
+            break
+        count += 1
+    
+#     print("go right")
+    for c1 in range(c + 1, n + 1):
+#         print(r, c1)
+        if [r, c1] in obstacles:
+            obstacles.remove([r, c1])
+            break
+        count += 1
 
-arr = [1,2,3,1,2,3,3,3]
-print(equalizeArray(arr))
+#     print("go up")
+    for r1 in range(r + 1, n + 1):
+#         print(r1, c)
+        if [r1, c] in obstacles:
+            obstacles.remove([r1, c])
+            break
+        count += 1
+
+#     print("go down")
+    for r1 in range(r - 1, 0, -1):
+#         print(r1, c)
+        if [r1, c] in obstacles:
+            obstacles.remove([r1, c])
+            break
+        count += 1
+
+#     print("go upleft")
+    r1 = r + 1
+    c1 = c - 1
+    while r1 <= n and c1 > 0:
+#         print(r1, c1)
+        if [r1, c1] in obstacles:
+            obstacles.remove([r1, c1])
+            break
+        count += 1
+        r1 += 1
+        c1 -= 1
+
+#     print("go upright")
+    r1 = r + 1
+    c1 = c + 1
+    while r1 <= n and c1 <= n:
+#         print(r1, c1)
+        if [r1, c1] in obstacles:
+            obstacles.remove([r1, c1])
+            break
+        count += 1
+        r1 += 1
+        c1 += 1
+
+#     print("go downleft")
+    r1 = r - 1
+    c1 = c - 1
+    while r1 > 0 and c1 > 0:
+#         print(r1, c1)
+        if [r1, c1] in obstacles:
+            obstacles.remove([r1, c1])
+            break
+        count += 1
+        r1 -= 1
+        c1 -= 1
+     
+#     print("go downright")
+    r1 = r - 1
+    c1 = c + 1
+    while r1 > 0 and c1 <= n:
+#         print(r1, c1)
+        if [r1, c1] in obstacles:
+            obstacles.remove([r1, c1])
+            break
+        count += 1
+        r1 -= 1
+        c1 += 1
+
+    return count
+
+# arr = [1,2,3,1,2,3,3,3]
+print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3]]))
+# print(queensAttack(4, 0, 4, 4, []))
+# print(queensAttack(8, 1, 4, 4, [[3,5]]))
