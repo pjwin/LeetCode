@@ -121,6 +121,7 @@ def queensAttack(n, k, r_q, c_q, obstacles):
     max_r = n + 1
     min_c = 0
     max_c = n + 1
+    min_ul = 0
     for i in obstacles:
         if i[0] == r:
             #get all obstacles for the row
@@ -194,8 +195,28 @@ def queensAttack(n, k, r_q, c_q, obstacles):
 
     return count
 
+
+def acmTeam(topic):
+    mymax = 0
+    count = 0
+    for i in range(0, len(topic)):
+        for j in range(i + 1, len(topic)):
+            x = bin(int(topic[i],2) | int(topic[j],2)).count('1')
+            if x > mymax:
+                mymax = x
+                count = 1
+            elif x == mymax:
+                count += 1
+    return [mymax, count]
+
 # arr = [1,2,3,1,2,3,3,3]
-print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
+arr = ['10101', '11100', '11010', '00101']
+print(acmTeam(arr))
+# print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,1],[4,2],[4,5],[4,4],[2,3]]))
 # print(queensAttack(4, 0, 4, 4, []))
 # print(queensAttack(8, 1, 4, 4, [[3,5]]))
+
+
+
+
