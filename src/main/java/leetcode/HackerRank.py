@@ -240,6 +240,36 @@ def organizingContainers(container):
     else:
         return 'Impossible'
     
+def encryption(s):
+    s = list(s.replace(' ',''))
+    l = len(s)
+    r = math.floor(math.sqrt(l))
+    c = math.ceil(math.sqrt(l))
+    new_s = []
+    for i in range(c):
+        new_s.append([])
+    
+    if (r * c < l):
+        if ((r + 1) * c > r * (c + 1)):
+            r += 1
+        else:
+            c += 1
+    
+    pos = 0
+    for i in range(0, l):
+        if (i % c == 0):
+            pos = 0
+        else:
+            pos += 1
+        
+        new_s[pos].append(s[i])
+        
+    ans = ''
+    for i in new_s:
+        ans += "".join(i) + ' '
+    
+    return ans.rstrip()
+    
     
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
@@ -248,3 +278,6 @@ def organizingContainers(container):
 # arr = [[1,2],[3,4]]
 # arr = [[999336263,998799923],[998799923,999763019]]
 # print(organizingContainers(arr))
+# print(encryption('have a nice day'))
+print(encryption('feedthedog'))
+# print(encryption('chillout'))
