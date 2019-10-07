@@ -270,14 +270,23 @@ def encryption(s):
     
     return ans.rstrip()
     
-    
+def beautifulTriplets(d, arr):
+    count = 0
+    z = [0] * (arr[len(arr) - 1] + 1)
+    for i in arr:
+        z[i] = 1
+    print(z)
+    for i in arr:
+        if i + (d * 2) < len(z) and z[i + d] == 1 and z[i + (d * 2)] == 1:
+            count += 1
+    return count
+
+
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
 # print(taumBday(10, 10, 1, 1, 1))
-# arr = [[1,1],[1,1]]
-# arr = [[1,2],[3,4]]
-# arr = [[999336263,998799923],[998799923,999763019]]
 # print(organizingContainers(arr))
 # print(encryption('have a nice day'))
-print(encryption('feedthedog'))
-# print(encryption('chillout'))
+print(beautifulTriplets(1, [2,2,3,4,5]))
+print(beautifulTriplets(3, [1,2,4,5,7,8,10]))
+
