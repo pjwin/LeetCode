@@ -224,20 +224,27 @@ def taumBday(b, w, bc, wc, z):
     
     else: return (b*bc) + (w*wc);
 
+def organizingContainers(container):
+    rows = [0] * len(container)
+    cols = [0] * len(container)
+    for i in range(0, len(container)):
+        for j in range(0, len(container)):
+            rows[i] += container[i][j]
+            cols[j] += container[i][j]
+    
+    rows.sort()
+    cols.sort()
 
-# arr = [1,2,3,1,2,3,3,3]
+    if rows == cols:
+        return 'Possible'
+    else:
+        return 'Impossible'
+    
+    
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
-# print(queensAttack(5, 3, 4, 3, [[5,5],[4,1],[4,2],[4,5],[4,4],[2,3]]))
-# print(queensAttack(4, 0, 4, 4, []))
-# print(queensAttack(8, 1, 4, 4, [[3,5]]))
 # print(taumBday(10, 10, 1, 1, 1))
-# print(taumBday(5, 9, 2, 3, 4))
-# print(taumBday(3, 6, 9, 1, 1))
-# print(taumBday(7, 7, 4, 2, 1))
-# print(taumBday(3, 3, 1, 9, 2))
-print(taumBday(3, 5, 3, 4, 1))
-
-
-
-
+# arr = [[1,1],[1,1]]
+# arr = [[1,2],[3,4]]
+# arr = [[999336263,998799923],[998799923,999763019]]
+# print(organizingContainers(arr))
