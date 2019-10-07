@@ -209,13 +209,34 @@ def acmTeam(topic):
                 count += 1
     return [mymax, count]
 
+def taumBday(b, w, bc, wc, z):
+    #cost of gifts are the same
+    if (bc == wc): return (b*bc) + (w*wc)
+    
+    #cost of conversion too high
+    elif (z > bc and z > wc): return (b*bc) + (w*wc)
+    
+    #cost of black too high
+    elif (bc > wc + z): return (b*wc) + (b*z) + (w*wc)
+    
+    #cost of white too high
+    elif (wc > bc + z): return (b*bc) + (w*bc) + (w*z)
+    
+    else: return (b*bc) + (w*wc);
+
+
 # arr = [1,2,3,1,2,3,3,3]
-arr = ['10101', '11100', '11010', '00101']
-print(acmTeam(arr))
+# arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,1],[4,2],[4,5],[4,4],[2,3]]))
 # print(queensAttack(4, 0, 4, 4, []))
 # print(queensAttack(8, 1, 4, 4, [[3,5]]))
+# print(taumBday(10, 10, 1, 1, 1))
+# print(taumBday(5, 9, 2, 3, 4))
+# print(taumBday(3, 6, 9, 1, 1))
+# print(taumBday(7, 7, 4, 2, 1))
+# print(taumBday(3, 3, 1, 9, 2))
+print(taumBday(3, 5, 3, 4, 1))
 
 
 
