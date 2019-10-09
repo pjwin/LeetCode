@@ -275,18 +275,41 @@ def beautifulTriplets(d, arr):
     z = [0] * (arr[len(arr) - 1] + 1)
     for i in arr:
         z[i] = 1
-    print(z)
     for i in arr:
         if i + (d * 2) < len(z) and z[i + d] == 1 and z[i + (d * 2)] == 1:
             count += 1
     return count
 
-
+def biggerIsGreater(w):
+    i = len(w) - 1
+    while i > 0 and w[i -1] >= w[i]:
+        i -= 1
+    
+    suffix = i
+    if suffix == 0: return 'no answer'
+    
+    pivot = suffix - 1
+    swap = pivot
+    
+    i = len(w) - 1
+    while i > swap and w[i] <= w[pivot]:
+        i -= 1
+    
+    swap = i
+    
+    return w[:pivot] + w[swap] + (w[suffix:swap] + w[pivot] + w[swap + 1:len(w)])[::-1]
+    
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
 # print(taumBday(10, 10, 1, 1, 1))
 # print(organizingContainers(arr))
 # print(encryption('have a nice day'))
-print(beautifulTriplets(1, [2,2,3,4,5]))
-print(beautifulTriplets(3, [1,2,4,5,7,8,10]))
+# print(beautifulTriplets(3, [1,2,4,5,7,8,10]))
 
+# 
+# print(biggerIsGreater('ldmsym'))
+# print('ldmsym'[::-1])
+# print(biggerIsGreater('ldmsyma'))
+print(biggerIsGreater('ldmbyma'))
+print(biggerIsGreater('abcdefgfedcba'))
+print(biggerIsGreater('fedcba'))
