@@ -298,6 +298,19 @@ def biggerIsGreater(w):
     swap = i
     
     return w[:pivot] + w[swap] + (w[suffix:swap] + w[pivot] + w[swap + 1:len(w)])[::-1]
+
+
+def kaprekarNumbers(p, q):
+    k = []
+    for i in range(p, q  + 1):
+        s = i * i
+        i_str = str(i)
+        s_str = str(s)
+        l = s_str[0:len(s_str) - len(i_str)] or '0'
+        r = s_str[len(s_str) - len(i_str): len(s_str)]
+        if int(l) + int(r) == i: k.append(i_str)
+    if k: print(' '.join(k))
+    else: print('INVALID RANGE')
     
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
@@ -305,11 +318,6 @@ def biggerIsGreater(w):
 # print(organizingContainers(arr))
 # print(encryption('have a nice day'))
 # print(beautifulTriplets(3, [1,2,4,5,7,8,10]))
-
-# 
 # print(biggerIsGreater('ldmsym'))
-# print('ldmsym'[::-1])
-# print(biggerIsGreater('ldmsyma'))
-print(biggerIsGreater('ldmbyma'))
-print(biggerIsGreater('abcdefgfedcba'))
-print(biggerIsGreater('fedcba'))
+# print(kaprekarNumbers(1, 100))
+# print(kaprekarNumbers(2, 3))
