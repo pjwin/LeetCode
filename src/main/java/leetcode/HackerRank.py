@@ -311,6 +311,29 @@ def kaprekarNumbers(p, q):
         if int(l) + int(r) == i: k.append(i_str)
     if k: print(' '.join(k))
     else: print('INVALID RANGE')
+
+def minimumDistances(a):
+    nums = {}
+    min = sys.maxsize;
+    
+    for i in range(0, len(a)):
+        if a[i] in nums:
+            if 'r' in nums[a[i]]: 
+                if i - nums[a[i]]['r'] < nums[a[i]]['r'] - nums[a[i]]['l']:
+                    nums[a[i]]['l'] = nums[a[i]]['r']
+                    nums[a[i]]['r'] = i
+                    if nums[a[i]]['r'] - nums[a[i]]['l'] < min:
+                        min = nums[a[i]]['r'] - nums[a[i]]['l']
+            else:
+                nums[a[i]]['r'] = i
+                if nums[a[i]]['r'] - nums[a[i]]['l'] < min:
+                    min = nums[a[i]]['r'] - nums[a[i]]['l']
+        else:
+            nums[a[i]] = {'l' : i}
+    
+    if min == sys.maxsize: return -1
+    else: return min
+
     
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
@@ -321,3 +344,7 @@ def kaprekarNumbers(p, q):
 # print(biggerIsGreater('ldmsym'))
 # print(kaprekarNumbers(1, 100))
 # print(kaprekarNumbers(2, 3))
+
+minimumDistances([3,2,1,2,3])
+minimumDistances([7,1,3,4,1,7])
+minimumDistances([7,1,3,7,1,7])
