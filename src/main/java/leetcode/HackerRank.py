@@ -338,18 +338,57 @@ def howManyGames(p, d, m, s):
         else:
             p = m
     return count
-    
-# arr = ['10101', '11100', '11010', '00101']
-# print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
-# print(taumBday(10, 10, 1, 1, 1))
-# print(organizingContainers(arr))
-# print(encryption('have a nice day'))
-# print(beautifulTriplets(3, [1,2,4,5,7,8,10]))
-# print(beautifulTriplets(3, [1,4,7,7]))
-print(beautifulTriplets(1, [2,3,4,4,5]))
-# print(biggerIsGreater('ldmsym'))
-# print(kaprekarNumbers(1, 100))
-# print(kaprekarNumbers(2, 3))
 
-print(howManyGames(20, 3, 6, 85))
+def timeInWords(h, m):
+    words = {
+        0:"o' clock",
+        1:'one',
+        2:'two',
+        3:'three',
+        4:'four',
+        5:'five',
+        6:'six',
+        7:'seven',
+        8:'eight',
+        9:'nine',
+        10:'ten',
+        11:'eleven',
+        12:'twelve',
+        13:'thirteen',
+        14:'fourteen',
+        15:'quarter',
+        16:'sixteen',
+        17:'seventeen',
+        18:'eighteen',
+        19:'nineteen',
+        20:'twenty',
+        30:'half'
+    }
+    
+    if m == 0 or m == 15 or m == 30 or m == 45:
+        suffix = ''
+    elif m == 1:
+        suffix = 'minute '
+    else:
+        suffix = 'minutes '
+    
+    if m <= 30:
+        mid = 'past'
+    else:
+        m = 60 - m
+        h = h + 1 if h < 12 else 1
+        mid = 'to'
+    
+    hour = words[h]
+    if m > 20 and m < 30:
+        minute = words[20] + ' ' + words[m % 20]
+    else:
+        minute = words[m] 
+    
+    if m == 0:
+        str = hour + ' ' + minute
+    else:
+        str = minute + ' ' +  suffix + mid + ' ' + hour
+    
+    return str
 
