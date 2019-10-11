@@ -274,10 +274,10 @@ def beautifulTriplets(d, arr):
     count = 0
     z = [0] * (arr[len(arr) - 1] + 1)
     for i in arr:
-        z[i] = 1
+        z[i] += 1
     for i in arr:
-        if i + (d * 2) < len(z) and z[i + d] == 1 and z[i + (d * 2)] == 1:
-            count += 1
+        if i + (d * 2) < len(z) and z[i + d] > 0 and z[i + (d * 2)] > 0:
+            count += z[i + d] + z[i + (d * 2)] - 1
     return count
 
 def biggerIsGreater(w):
@@ -334,7 +334,10 @@ def minimumDistances(a):
 # print(organizingContainers(arr))
 # print(encryption('have a nice day'))
 # print(beautifulTriplets(3, [1,2,4,5,7,8,10]))
+# print(beautifulTriplets(3, [1,4,7,7]))
+print(beautifulTriplets(1, [2,3,4,4,5]))
 # print(biggerIsGreater('ldmsym'))
 # print(kaprekarNumbers(1, 100))
 # print(kaprekarNumbers(2, 3))
-print(minimumDistances([3,2,1,2,3]))
+# print(minimumDistances([3,2,1,2,3]))
+
