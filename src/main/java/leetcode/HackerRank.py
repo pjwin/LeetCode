@@ -392,3 +392,14 @@ def timeInWords(h, m):
     
     return str
 
+def chocolateFeast(n, c, m):
+    count = n // c
+    wraps = count
+    bank = 0
+    while wraps + bank >= m:
+        temp = (wraps + bank) % m
+        wraps = (wraps + bank) // m
+        count += wraps
+        bank = temp
+    return count
+    
