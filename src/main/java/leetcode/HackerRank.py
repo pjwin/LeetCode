@@ -327,6 +327,17 @@ def minimumDistances(a):
     if min == len(a): return -1
     else: return min
 
+def howManyGames(p, d, m, s):
+    count = 0
+    #p = start price, m = min price, d is discount, s is cash
+    while s >= p:
+        count += 1
+        s -= p
+        if p - d >= m:
+            p -= d
+        else:
+            p = m
+    return count
     
 # arr = ['10101', '11100', '11010', '00101']
 # print(queensAttack(5, 3, 4, 3, [[5,5],[4,2],[2,3],[5,2],[3,2]]))
@@ -337,4 +348,5 @@ def minimumDistances(a):
 # print(biggerIsGreater('ldmsym'))
 # print(kaprekarNumbers(1, 100))
 # print(kaprekarNumbers(2, 3))
-print(minimumDistances([3,2,1,2,3]))
+# print(minimumDistances([3,2,1,2,3]))
+print(howManyGames(20, 3, 6, 85))
