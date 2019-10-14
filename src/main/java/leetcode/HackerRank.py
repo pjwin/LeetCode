@@ -403,3 +403,22 @@ def chocolateFeast(n, c, m):
         bank = temp
     return count
     
+def serviceLane(n, cases):
+    ret = [0] * len(cases)
+    for i in range(len(cases)):
+        min = 4
+        for j in range(cases[i][0], cases[i][1] + 1):
+            if width[j] == 1:
+                min = 1
+                break
+            if width[j] < min: min = width[j]
+        ret[i] = min
+    return ret
+
+# width = [2,3,1,2,3,2,3,3]
+# cases = [[0,3],[4,6],[6,7],[3,5],[0,7]]
+# print(serviceLane(8, cases))
+
+width = [1,2,2,2,1]
+cases = [[2,3],[1,4],[2,4],[2,4],[2,3]]
+print(serviceLane(5, cases))
