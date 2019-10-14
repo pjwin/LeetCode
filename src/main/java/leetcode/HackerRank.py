@@ -277,7 +277,7 @@ def beautifulTriplets(d, arr):
         z[i] += 1
     for i in arr:
         if i + (d * 2) < len(z) and z[i + d] > 0 and z[i + (d * 2)] > 0:
-            count += z[i + d] + z[i + (d * 2)] - 1
+            count += z[i + d] * z[i + (d * 2)]
     return count
 
 def biggerIsGreater(w):
@@ -415,10 +415,18 @@ def serviceLane(n, cases):
         ret[i] = min
     return ret
 
-# width = [2,3,1,2,3,2,3,3]
-# cases = [[0,3],[4,6],[6,7],[3,5],[0,7]]
-# print(serviceLane(8, cases))
-
-width = [1,2,2,2,1]
-cases = [[2,3],[1,4],[2,4],[2,4],[2,3]]
-print(serviceLane(5, cases))
+def workbook(n, k, arr):
+    special = 0
+    pagenum = 1
+    for i in range(0, n):
+        count = 1
+        for j in range(1, arr[i] + 1):
+            if j == pagenum:
+                special += 1
+            count += 1
+            if count == k + 1 and j < arr[i]:
+                count = 1
+                pagenum += 1
+        pagenum += 1
+    
+    return special;
