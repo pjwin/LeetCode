@@ -1,4 +1,4 @@
-package leetcode;
+package hackerrank;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
