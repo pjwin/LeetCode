@@ -430,3 +430,22 @@ def workbook(n, k, arr):
         pagenum += 1
     
     return special;
+
+def flatlandSpaceStations(n, c):
+    if n == len(c): return 0
+    max = 0
+    c.sort()
+    l = c[0]
+    r = c[1] if len(c) > 1 else c[0]
+    j = 2
+    for i in range(n):
+        if min(abs(i - l), abs(i - r)) > max: max = min(abs(i - l),abs(i - r))
+        if i == r:
+            l = r
+            if j < len(c):
+                r = c[j]
+                j += 1;
+    return max           
+
+print flatlandSpaceStations(5, [0,4])
+print flatlandSpaceStations(6, [0,1,2,4,3,5])
