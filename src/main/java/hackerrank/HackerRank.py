@@ -210,19 +210,7 @@ def acmTeam(topic):
     return [mymax, count]
 
 def taumBday(b, w, bc, wc, z):
-    #cost of gifts are the same
-    if (bc == wc): return (b*bc) + (w*wc)
-    
-    #cost of conversion too high
-    elif (z > bc and z > wc): return (b*bc) + (w*wc)
-    
-    #cost of black too high
-    elif (bc > wc + z): return (b*wc) + (b*z) + (w*wc)
-    
-    #cost of white too high
-    elif (wc > bc + z): return (b*bc) + (w*bc) + (w*z)
-    
-    else: return (b*bc) + (w*wc);
+    return b * min(bc, wc + z) + w * min(wc, bc + z)
 
 def organizingContainers(container):
     rows = [0] * len(container)
