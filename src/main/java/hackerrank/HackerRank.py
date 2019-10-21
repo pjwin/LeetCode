@@ -195,7 +195,6 @@ def queensAttack(n, k, r_q, c_q, obstacles):
 
     return count
 
-
 def acmTeam(topic):
     mymax = 0
     count = 0
