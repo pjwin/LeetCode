@@ -447,5 +447,23 @@ def flatlandSpaceStations(n, c):
                 j += 1;
     return max           
 
-print flatlandSpaceStations(5, [0,4])
-print flatlandSpaceStations(6, [0,1,2,4,3,5])
+def fairRations(B):
+    oc = 0
+    count = 0
+    prev = -1
+    for i in range(len(B)):
+        if B[i] % 2 != 0:
+            oc = oc + 1
+            if prev == -1:
+                prev = i
+            else:
+                count = count + i - prev
+                prev = -1
+    if oc % 2 != 0:
+        return 'NO'
+    
+    return count * 2
+
+print(fairRations([4,5,6,7]))
+print(fairRations([2,3,4,5,6]))
+print(fairRations([1,2]))
