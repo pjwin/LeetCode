@@ -479,4 +479,26 @@ def stones(n, a, b):
         nums.append(sum)
     return nums
 
+def gridSearch(G, P):
+    g_r = len(G)
+    g_c = len(G[0])
+    p_r = len(P)
+    p_c = len(P[0])
+    
+    for i in range(0, g_r - p_r + 1):
+        for m in re.finditer('(?=' + P[0] + ')', G[i]):
+            if gridHelp(G, P, i, p_r, m.start(), p_c) == 'NO':
+                continue
+            else:
+                return 'YES'
+    return 'NO'
+            
+def gridHelp(G, P, i, p_r, l, p_c):
+    for j in range(1, p_r):
+        if G[i + j][l:l + p_c] != P[j]:
+            return 'NO'
+    return 'YES'
 
+
+# print(gridSearch(['7283455864', '6731158619', '8988242643', '3830589324', '2229505813', '5633845374', '6473530293', '7053106601', '0834282956', '4607924137'],['9505', '3845', '3530']))
+print(gridSearch(['123412', '561212', '123634', '781288'],['12', '34']))
