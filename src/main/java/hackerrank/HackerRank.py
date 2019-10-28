@@ -417,3 +417,56 @@ def workbook(n, k, arr):
         pagenum += 1
     
     return special;
+
+def flatlandSpaceStations(n, c):
+    if n == len(c): return 0
+    max = 0
+    c.sort()
+    l = c[0]
+    r = c[1] if len(c) > 1 else c[0]
+    j = 2
+    for i in range(n):
+        if min(abs(i - l), abs(i - r)) > max: max = min(abs(i - l),abs(i - r))
+        if i == r:
+            l = r
+            if j < len(c):
+                r = c[j]
+                j += 1;
+    return max           
+
+def fairRations(B):
+    oc = 0
+    count = 0
+    prev = -1
+    for i in range(len(B)):
+        if B[i] % 2 != 0:
+            oc = oc + 1
+            if prev == -1:
+                prev = i
+            else:
+                count = count + i - prev
+                prev = -1
+    if oc % 2 != 0:
+        return 'NO'
+    
+    return count * 2
+
+def fairRations2(B):
+    sum = 0
+    count = 0
+    for i in B:
+        sum = sum + i
+        if i % 2 != 0:
+            count = count + 2
+    if sum % 2 != 0:
+        return 'NO'
+    return count
+
+def cavityMap(grid):
+    for i in range(1, len(grid) - 1):
+        for j in range(1, len(grid) - 1):
+            if grid[i - 1][j] < grid[i][j] and grid[i + 1][j] < grid[i][j] and grid[i][j - 1] < grid[i][j] and grid[i][j + 1] < grid[i][j]:
+                grid[i] = grid[i][0:j] + 'X' + grid[i][j + 1:]
+    return grid
+
+print(cavityMap(['1112', '1912', '1892', '1234']))
