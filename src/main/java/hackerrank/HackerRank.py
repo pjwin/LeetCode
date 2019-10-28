@@ -469,4 +469,14 @@ def cavityMap(grid):
                 grid[i] = grid[i][0:j] + 'X' + grid[i][j + 1:]
     return grid
 
-print(cavityMap(['1112', '1912', '1892', '1234']))
+def stones(n, a, b):
+    nums = []
+    sum = (n-1) * a
+    nums.append(sum)
+    inc = b - a
+    for i in range(1, n):
+        sum += inc
+        nums.append(sum)
+    return nums
+
+
