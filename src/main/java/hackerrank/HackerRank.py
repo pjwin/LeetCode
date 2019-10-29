@@ -499,6 +499,25 @@ def gridHelp(G, P, i, p_r, l, p_c):
             return 'NO'
     return 'YES'
 
+def happyLadybugs(b):
+    if len(b) == 1:
+        if b[0] != '_':
+            return 'NO'
+        else:
+            return 'YES'
+    inorder = True
+    chars = {}
+    for i in range(len(b)):
+        chars[b[i]] = chars[b[i]] + 1 if b[i] in chars else 1
+        if b[i] != b[i - 1 if i > 0 else i + 1] and b[i] != b[i + 1 if i < len(b) - 1 else i - 1] and b[i] != '_':
+            inorder = False
 
-# print(gridSearch(['7283455864', '6731158619', '8988242643', '3830589324', '2229505813', '5633845374', '6473530293', '7053106601', '0834282956', '4607924137'],['9505', '3845', '3530']))
-print(gridSearch(['123412', '561212', '123634', '781288'],['12', '34']))
+    if not inorder and '_' not in chars:
+        return 'NO'
+    
+    for k, v in chars.items():
+        if k != '_' and v == 1:
+            return 'NO'
+    
+    return 'YES'
+    
