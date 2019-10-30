@@ -570,3 +570,33 @@ def surfaceArea(A):
             
     return total
 
+def absolutePermutation(n, k):
+    nums = set()
+    ret = []
+        
+    for i in range(1, n + 1):
+        nums.add(i)
+    
+    for i in range(1, n + 1):
+        prev = i - k
+        if i - k in nums:
+            nums.remove(i - k)
+            ret.append(str(i - k))
+        elif i + k in nums:
+            nums.remove(i + k)
+            ret.append(str(i + k))
+        else:
+            ret.clear()
+            ret.append(str(-1))
+            return ret
+    return ret
+
+def absolutePermutation2(n, k):
+    #fixme
+    ret = []
+    if n % k != 0:
+        return [-1]
+    for i in range(1, n + 1):
+        ret.append(i + k)
+
+
