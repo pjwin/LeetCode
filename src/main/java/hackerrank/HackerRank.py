@@ -520,4 +520,53 @@ def happyLadybugs(b):
             return 'NO'
     
     return 'YES'
+
+def surfaceArea(A):
+    total = 0
+    bottom = len(A) * len(A[0])
+    top = bottom
+    total = top + bottom
     
+    for i in range(0, len(A)):
+        for j in range(0, len(A[0])):
+            up = 0
+            down = 0
+            left = 0
+            right = 0
+            
+            #up
+            if i == 0:
+                up = A[i][j]
+            else:
+                if A[i - 1][j] < A[i][j]:
+                    up = A[i][j] - A[i - 1][j]
+            
+            #down 
+            if i == len(A) - 1:
+                down = A[i][j]
+            else:
+                if A[i + 1][j] < A[i][j]:
+                    down = A[i][j] - A[i + 1][j]
+                    
+            #left 
+            if j == 0:
+                left = A[i][j]
+            else:
+                if A[i][j - 1] < A[i][j]:
+                    left = A[i][j] - A[i][j - 1]
+
+            #right 
+            if j == len(A[0]) - 1:
+                right = A[i][j]
+            else:
+                if A[i][j + 1] < A[i][j]:
+                    right = A[i][j] - A[i][j + 1]
+    
+            
+            total += up
+            total += down
+            total += left
+            total += right
+            
+    return total
+
