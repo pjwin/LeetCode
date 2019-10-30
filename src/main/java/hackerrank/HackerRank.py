@@ -3,6 +3,7 @@ import os
 import random
 import re
 import sys
+import time
 
 
 def extraLongFactorials(n):
@@ -592,11 +593,18 @@ def absolutePermutation(n, k):
     return ret
 
 def absolutePermutation2(n, k):
-    #fixme
+    #this one is faster
     ret = []
+    c = 1
     if n % k != 0:
         return [-1]
     for i in range(1, n + 1):
-        ret.append(i + k)
-
+        if c <= k:
+            ret.append(i + k)
+        else:
+            ret.append(i - k)
+        c += 1
+        if c > 2 * k:
+            c = 1
+    return ret
 
