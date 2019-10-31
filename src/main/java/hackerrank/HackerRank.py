@@ -608,3 +608,60 @@ def absolutePermutation2(n, k):
             c = 1
     return ret
 
+def bomberMan(n, grid):
+    #fixme
+    if n == 0 or n == 1:
+        return grid
+    if n % 2 == 0:
+        return list(['O' * len(grid[0])] * len(grid))
+    
+    #2
+    for i in range(len(grid)):
+        grid[i] = grid[i].replace('.', '2')
+        grid[i] = list(grid[i])
+    
+    #3
+    grid = [[x.replace('O','.') for x in l] for l in grid]
+    grid = explode(grid)
+    
+    if n == 3:
+        return [''.join([x.replace('2','O') for x in l]) for l in grid]
+
+    #4
+    grid = [[x.replace('.','4') for x in l] for l in grid]
+    
+    #5
+    grid = [[x.replace('2','.') for x in l] for l in grid]
+    grid = explode(grid)
+    return [''.join([x.replace('4','O') for x in l]) for l in grid]
+
+def explode(grid):
+    for i in range(len(grid)):
+
+        for j in range(len(grid[0])):
+            #up
+            if grid[i][j] == '.':
+                continue
+            if i > 0 and grid[i - 1][j] == '.':
+                grid[i][j] = 'X'
+            #down
+            elif i < len(grid) - 1 and grid[i + 1][j] == '.':
+                grid[i][j] = 'X'
+            #left:
+            elif j > 0 and grid[i][j - 1] == '.':
+                grid[i][j] = 'X'
+            #right
+            elif j < len(grid[i]) - 1 and grid[i][j + 1] == '.':
+                grid[i][j] = 'X'
+    return [[x.replace('X','.') for x in l] for l in grid]
+
+    
+# print(bomberMan(2, ['...','...','...']))
+# print(bomberMan(3, ['.......', '...O...', '....O..', '.......', 'OO.....', 'OO.....']))
+# print(bomberMan(5, ['.......', '...O.O.', '....O..', '..O....', 'OO...OO', 'OO.O...']))
+print(bomberMan(3, ['OOOO.O.O...OOO.O.O........O.OOO.O.....OO..O..O...OOO....O.OOO....O...O....O..O.O.O.....OOOO.O...O....OO.O...........O.O..O.O..O...OO.OOO......O........O...O....O.O..O....O.......OOOO.O..........OO.O']))
+print(bomberMan(5, ['OOOO.O.O...OOO.O.O........O.OOO.O.....OO..O..O...OOO....O.OOO....O...O....O..O.O.O.....OOOO.O...O....OO.O...........O.O..O.O..O...OO.OOO......O........O...O....O.O..O....O.......OOOO.O..........OO.O']))
+
+# ['.........O.........OOOOOO.........OOO..........O.....OO.......OO...O...OO..........OOO........O...OO......OOOOOOOOO.............O........OOOO...OOOOOO...O...OO........OO...OOOOO........OOOOOOOO.....']
+# ['OOOOOOOO...OOOOOOO........OOOOOOO.....OOOOOOOO...OOO....OOOOO....O...O....OOOOOOOO.....OOOOOO...O....OOOO...........OOOOOOOOOOO...OOOOOO......O........O...O....OOOOOO....O.......OOOOOO..........OOOO']
+# ['.........O.........OOOOOO.........OOO..........O.....OO.......OO...O...OO..........OOO........O...OO......OOOOOOOOO.............O........OOOO...OOOOOO...O...OO........OO...OOOOO........OOOOOOOO.....']
