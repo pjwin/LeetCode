@@ -609,7 +609,6 @@ def absolutePermutation2(n, k):
     return ret
 
 def bomberMan(n, grid):
-    #fixme
     if n == 0 or n == 1:
         return grid
     if n % 2 == 0:
@@ -624,16 +623,22 @@ def bomberMan(n, grid):
     grid = [[x.replace('O','.') for x in l] for l in grid]
     grid = explode(grid)
     
+    grid3 = [''.join([x.replace('2','O') for x in l]) for l in grid]
     if n == 3:
-        return [''.join([x.replace('2','O') for x in l]) for l in grid]
-
+        return grid3
     #4
     grid = [[x.replace('.','4') for x in l] for l in grid]
     
     #5
     grid = [[x.replace('2','.') for x in l] for l in grid]
     grid = explode(grid)
-    return [''.join([x.replace('4','O') for x in l]) for l in grid]
+    
+    grid5 = [''.join([x.replace('4','O') for x in l]) for l in grid]
+    
+    if ((n - 1) / 2) % 2 == 1:
+        return grid3
+    else:
+        return grid5
 
 def explode(grid):
     for i in range(len(grid)):
@@ -654,14 +659,3 @@ def explode(grid):
             elif j < len(grid[i]) - 1 and grid[i][j + 1] == '.':
                 grid[i][j] = 'X'
     return [[x.replace('X','.') for x in l] for l in grid]
-
-    
-# print(bomberMan(2, ['...','...','...']))
-# print(bomberMan(3, ['.......', '...O...', '....O..', '.......', 'OO.....', 'OO.....']))
-# print(bomberMan(5, ['.......', '...O.O.', '....O..', '..O....', 'OO...OO', 'OO.O...']))
-print(bomberMan(3, ['OOOO.O.O...OOO.O.O........O.OOO.O.....OO..O..O...OOO....O.OOO....O...O....O..O.O.O.....OOOO.O...O....OO.O...........O.O..O.O..O...OO.OOO......O........O...O....O.O..O....O.......OOOO.O..........OO.O']))
-print(bomberMan(5, ['OOOO.O.O...OOO.O.O........O.OOO.O.....OO..O..O...OOO....O.OOO....O...O....O..O.O.O.....OOOO.O...O....OO.O...........O.O..O.O..O...OO.OOO......O........O...O....O.O..O....O.......OOOO.O..........OO.O']))
-
-# ['.........O.........OOOOOO.........OOO..........O.....OO.......OO...O...OO..........OOO........O...OO......OOOOOOOOO.............O........OOOO...OOOOOO...O...OO........OO...OOOOO........OOOOOOOO.....']
-# ['OOOOOOOO...OOOOOOO........OOOOOOO.....OOOOOOOO...OOO....OOOOO....O...O....OOOOOOOO.....OOOOOO...O....OOOO...........OOOOOOOOOOO...OOOOOO......O........O...O....OOOOOO....O.......OOOOOO..........OOOO']
-# ['.........O.........OOOOOO.........OOO..........O.....OO.......OO...O...OO..........OOO........O...OO......OOOOOOOOO.............O........OOOO...OOOOOO...O...OO........OO...OOOOO........OOOOOOOO.....']
