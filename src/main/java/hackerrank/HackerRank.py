@@ -659,3 +659,18 @@ def explode(grid):
             elif j < len(grid[i]) - 1 and grid[i][j + 1] == '.':
                 grid[i][j] = 'X'
     return [[x.replace('X','.') for x in l] for l in grid]
+
+def jumpingOnClouds2(c, k):
+    mylen = len(c)
+    pos = k % mylen;
+    e = 100 - (1 + 2 * c[pos])
+    while pos != 0:
+        pos = (pos + k) % mylen
+        e -= (1 + 2 * c[pos])
+    return e
+
+def twoPluses(grid):
+    print(grid)
+    return
+
+# print(twoPluses(['GGGGGG', 'GBBBGB', 'GGGGGG', 'GGBBGB', 'GGGGGG']))
