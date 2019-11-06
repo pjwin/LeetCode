@@ -670,7 +670,56 @@ def jumpingOnClouds2(c, k):
     return e
 
 def twoPluses(grid):
-    print(grid)
-    return
+    newgrid = [list('0') * len(grid[0]) for i in range(len(grid))]
+    #right
+    mymax = 0
+    for i in range(len(grid)):
+        tmp = 0
+        for j in range(len(grid[0])):
+            if grid[i][j] == 'G':
+                tmp += 1
+            else:
+                tmp = 0
+            newgrid[i][j] = tmp
+            mymax = max(mymax, newgrid[i][j])
+    if mymax == 1: return 1
+    
+    #left
+    for i in range(len(grid)):
+        tmp = 0
+        for j in range(len(grid[0]) - 1, -1, -1):
+            if grid[i][j] == 'G':
+                tmp += 1
+            else:
+                tmp = 0
+            newgrid[i][j] = min(tmp, newgrid[i][j])
+    
+    #down
+    mymax = 0
+    for i in range(len(grid[0])):
+        for j in range(len(grid)):
+            if grid[j][i] == 'G':
+                tmp += 1
+            else:
+                tmp = 0
+            newgrid[j][i] = min(tmp, newgrid[j][i])
+            mymax = max(mymax, newgrid[j][i])
+    if mymax == 1: return 1
+    
+    #up
+    mymax = 0
+    for i in range(len(grid[0])):
+        for j in range(len(grid) - 1, -1, -1):
+            if grid[j][i] == 'G':
+                tmp += 1
+            else:
+                tmp = 0
+            newgrid[j][i] = min(tmp, newgrid[j][i])
+            mymax = max(mymax, newgrid[j][i])
+    
+    print(newgrid)
+    
+    return ((mymax - 1) * 4) + 1
 
 # print(twoPluses(['GGGGGG', 'GBBBGB', 'GGGGGG', 'GGBBGB', 'GGGGGG']))
+print(twoPluses(['BGBBGB', 'GGGGGG', 'BGBBGB', 'GGGGGG', 'BGBBGB', 'BGBBGB']))
