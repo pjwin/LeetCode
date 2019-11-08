@@ -4,6 +4,7 @@ import random
 import re
 import sys
 import time
+import copy
 
 
 def extraLongFactorials(n):
@@ -670,6 +671,41 @@ def jumpingOnClouds2(c, k):
     return e
 
 def twoPluses(grid):
+    #fixme - blocking the max from the first sequence is not the correct process.
+    
+    #convert list of strings to list of character lists
+    for i in range(len(grid)):
+        grid[i] = list(grid[i])
+    newgrid = copy.deepcopy(grid)
+    ret = twoPlusesHelper2(grid)
+    firstmax = ret[0]
+    first_i = ret[1][0]
+    first_j = ret[1][1]
+    newgrid[first_i][first_j] = 'B'
+    ret = twoPlusesHelper2(newgrid)
+    secondmax = ret[0]
+    return max(firstmax, secondmax)
+
+def twoPlusesHelper2(grid):
+    
+    #get the max value in the first grid, and the location of the max
+    ret = twoPlusesHelper(grid)
+    firstmax = (ret[0] * 4) - 3
+    first_i = ret[1][0]
+    first_j = ret[1][1]
+    
+    #block off the first plus
+    for j in range(first_j - ret[0] + 1, first_j + ret[0]):
+        grid[first_i][j] = 'B'
+    for i in range(first_i - ret[0] + 1, first_i + ret[0]):
+        grid[i][first_j] = 'B'
+
+    #find the second largest plus that doesn't overlap the first
+    ret = twoPlusesHelper(grid)
+    secondmax = (ret[0] * 4) - 3
+    return [firstmax * secondmax, [first_i, first_j]]
+
+def twoPlusesHelper(grid):
     newgrid = [list('0') * len(grid[0]) for i in range(len(grid))]
     #right
     mymax = 0
@@ -681,8 +717,10 @@ def twoPluses(grid):
             else:
                 tmp = 0
             newgrid[i][j] = tmp
-            mymax = max(mymax, newgrid[i][j])
-    if mymax == 1: return 1
+            if newgrid[i][j] > mymax:
+                mymax = newgrid[i][j]
+                maxloc = [j,i]
+    if mymax == 1: return [mymax, maxloc]
     
     #left
     for i in range(len(grid)):
@@ -697,29 +735,39 @@ def twoPluses(grid):
     #down
     mymax = 0
     for i in range(len(grid[0])):
+        tmp = 0
         for j in range(len(grid)):
             if grid[j][i] == 'G':
                 tmp += 1
             else:
                 tmp = 0
             newgrid[j][i] = min(tmp, newgrid[j][i])
-            mymax = max(mymax, newgrid[j][i])
-    if mymax == 1: return 1
+            if newgrid[j][i] > mymax:
+                mymax = newgrid[j][i]
+                maxloc = [j,i]
+    if mymax == 1: return [mymax, maxloc]
     
     #up
     mymax = 0
     for i in range(len(grid[0])):
+        tmp = 0
         for j in range(len(grid) - 1, -1, -1):
             if grid[j][i] == 'G':
                 tmp += 1
             else:
                 tmp = 0
             newgrid[j][i] = min(tmp, newgrid[j][i])
-            mymax = max(mymax, newgrid[j][i])
+            if newgrid[j][i] > mymax:
+                mymax = newgrid[j][i]
+                maxloc = [j,i]
     
-    print(newgrid)
-    
-    return ((mymax - 1) * 4) + 1
+    for i in newgrid:
+        print(i)
+    print()
+        
+    return [mymax, maxloc]
 
 # print(twoPluses(['GGGGGG', 'GBBBGB', 'GGGGGG', 'GGBBGB', 'GGGGGG']))
-print(twoPluses(['BGBBGB', 'GGGGGG', 'BGBBGB', 'GGGGGG', 'BGBBGB', 'BGBBGB']))
+# print(twoPluses(['BGBBGB', 'GGGGGG', 'BGBBGB', 'GGGGGG', 'BGBBGB', 'BGBBGB']))
+# print(twoPluses(['GGGGGG', 'GGGGGG', 'GGGGGG', 'GGGGGG', 'GGGGGG', 'GGGGGG']))
+print(twoPluses(['GGGGGGGG', 'GBGBGGBG', 'GBGBGGBG', 'GGGGGGGG', 'GBGBGGBG', 'GGGGGGGG', 'GBGBGGBG', 'GGGGGGGG']))
