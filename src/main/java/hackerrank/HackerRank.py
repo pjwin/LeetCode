@@ -670,45 +670,80 @@ def jumpingOnClouds2(c, k):
         e -= (1 + 2 * c[pos])
     return e
 
+    #create a copy
+#     newgrid = copy.deepcopy(grid)
+#     ret = twoPlusesHelper1(grid)
+#     firstmax = ret[0]
+# 
+#     ret = twoPlusesHelper1(newgrid)
+#     secondmax = ret[0]
+#     return max(firstmax, secondmax)
+
+# def twoPlusesHelper1(grid):
+#     
+#     #get the max value in the first grid, and the location of the max
+#     ret = twoPlusesHelper2(grid)
+#     firstmax = (ret[0] * 4) - 3
+#     first_i = ret[1][0]
+#     first_j = ret[1][1]
+#     
+#     #block off the first plus
+#     for j in range(first_j - ret[0] + 1, first_j + ret[0]):
+#         grid[first_i][j] = 'B'
+#     for i in range(first_i - ret[0] + 1, first_i + ret[0]):
+#         grid[i][first_j] = 'B'
+# 
+#     #find the second largest plus that doesn't overlap the first
+#     ret = twoPlusesHelper2(grid)
+#     secondmax = (ret[0] * 4) - 3
+#     return [firstmax * secondmax, [first_i, first_j]]
+
 def twoPluses(grid):
-    #fixme - blocking the max from the first sequence is not the correct process.
-    
     #convert list of strings to list of character lists
     for i in range(len(grid)):
         grid[i] = list(grid[i])
+    
+    #get the list of possible pluses
+    valgrid1 = twoPlusesValueGrid(grid)
+    
+    #get the max value and position in the value grid
+    max_value1, max_index1 = twoPlusesMaxGrid(valgrid1)
+    
+    #block off the area of the largest plus
+    newgrid = twoPlusesBlockGrid(grid, max_value1, max_index1)
+    
+    #get the next largest plus
+    valgrid2 = twoPlusesValueGrid(newgrid)
+    
+    #get the next max values
+    max_value2, max_index2 = twoPlusesMaxGrid(valgrid2)
+    
+    return ((max_value1 * 4) - 3) * ((max_value2 * 4) - 3)
+
+def twoPlusesMaxGrid(grid):
+    return max((x, (i, j))
+               for i, row in enumerate(grid)
+               for j, x in enumerate(row))
+    
+def twoPlusesBlockGrid(grid, max_value, max_index):
+    #make a copy
     newgrid = copy.deepcopy(grid)
-    ret = twoPlusesHelper2(grid)
-    firstmax = ret[0]
-    first_i = ret[1][0]
-    first_j = ret[1][1]
-    newgrid[first_i][first_j] = 'B'
-    ret = twoPlusesHelper2(newgrid)
-    secondmax = ret[0]
-    return max(firstmax, secondmax)
-
-def twoPlusesHelper2(grid):
     
-    #get the max value in the first grid, and the location of the max
-    ret = twoPlusesHelper(grid)
-    firstmax = (ret[0] * 4) - 3
-    first_i = ret[1][0]
-    first_j = ret[1][1]
+    #block off a plus defined by max_value and max_index
+    x = max_index[0]
+    y = max_index[1]
+    for j in range(y - max_value + 1, y + max_value):
+        newgrid[x][j] = 'B'
+    for i in range(x - max_value + 1, x + max_value):
+        newgrid[i][y] = 'B'
     
-    #block off the first plus
-    for j in range(first_j - ret[0] + 1, first_j + ret[0]):
-        grid[first_i][j] = 'B'
-    for i in range(first_i - ret[0] + 1, first_i + ret[0]):
-        grid[i][first_j] = 'B'
+    return newgrid
 
-    #find the second largest plus that doesn't overlap the first
-    ret = twoPlusesHelper(grid)
-    secondmax = (ret[0] * 4) - 3
-    return [firstmax * secondmax, [first_i, first_j]]
-
-def twoPlusesHelper(grid):
-    newgrid = [list('0') * len(grid[0]) for i in range(len(grid))]
+def twoPlusesValueGrid(grid):
+    #create a grid of plus values
+    valgrid = [list('0') * len(grid[0]) for i in range(len(grid))]
+    
     #right
-    mymax = 0
     for i in range(len(grid)):
         tmp = 0
         for j in range(len(grid[0])):
@@ -716,11 +751,7 @@ def twoPlusesHelper(grid):
                 tmp += 1
             else:
                 tmp = 0
-            newgrid[i][j] = tmp
-            if newgrid[i][j] > mymax:
-                mymax = newgrid[i][j]
-                maxloc = [j,i]
-    if mymax == 1: return [mymax, maxloc]
+            valgrid[i][j] = tmp
     
     #left
     for i in range(len(grid)):
@@ -730,10 +761,9 @@ def twoPlusesHelper(grid):
                 tmp += 1
             else:
                 tmp = 0
-            newgrid[i][j] = min(tmp, newgrid[i][j])
+            valgrid[i][j] = min(tmp, valgrid[i][j])
     
     #down
-    mymax = 0
     for i in range(len(grid[0])):
         tmp = 0
         for j in range(len(grid)):
@@ -741,14 +771,9 @@ def twoPlusesHelper(grid):
                 tmp += 1
             else:
                 tmp = 0
-            newgrid[j][i] = min(tmp, newgrid[j][i])
-            if newgrid[j][i] > mymax:
-                mymax = newgrid[j][i]
-                maxloc = [j,i]
-    if mymax == 1: return [mymax, maxloc]
+            valgrid[j][i] = min(tmp, valgrid[j][i])
     
     #up
-    mymax = 0
     for i in range(len(grid[0])):
         tmp = 0
         for j in range(len(grid) - 1, -1, -1):
@@ -756,16 +781,9 @@ def twoPlusesHelper(grid):
                 tmp += 1
             else:
                 tmp = 0
-            newgrid[j][i] = min(tmp, newgrid[j][i])
-            if newgrid[j][i] > mymax:
-                mymax = newgrid[j][i]
-                maxloc = [j,i]
+            valgrid[j][i] = min(tmp, valgrid[j][i])
     
-    for i in newgrid:
-        print(i)
-    print()
-        
-    return [mymax, maxloc]
+    return valgrid
 
 # print(twoPluses(['GGGGGG', 'GBBBGB', 'GGGGGG', 'GGBBGB', 'GGGGGG']))
 # print(twoPluses(['BGBBGB', 'GGGGGG', 'BGBBGB', 'GGGGGG', 'BGBBGB', 'BGBBGB']))
