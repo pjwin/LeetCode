@@ -722,9 +722,19 @@ def twoPluses(grid):
     values = twoPlusesPivot(valgrid)
     
     for key in reversed(sorted(values.keys())):
-        print(key, values[key])
-    
-
+        for coords in values[key]:
+            newgrid = twoPlusesBlockGrid(grid, key, coords)
+            newvalgrid = twoPlusesGetValues(newgrid)
+            newvals = twoPlusesPivot(newvalgrid)
+            product = max(product, (((key * 4) - 3) * ((max(newvals) * 4) - 3)))
+        
+        for coords in values[key]:
+            newgrid = twoPlusesBlockGrid(grid, key - 1, coords)
+            newvalgrid = twoPlusesGetValues(newgrid)
+            newvals = twoPlusesPivot(newvalgrid)
+            product = max(product, ((((key - 1) * 4) - 3) * ((max(newvals) * 4) - 3)))
+        
+    return product
 
 def twoPlusesPivot(grid):
     #change grid of values to list of values and their positions
@@ -801,4 +811,5 @@ def twoPlusesGetValues(grid):
 # print(twoPluses(['GGGGGG', 'GBBBGB', 'GGGGGG', 'GGBBGB', 'GGGGGG']))
 # print(twoPluses(['BGBBGB', 'GGGGGG', 'BGBBGB', 'GGGGGG', 'BGBBGB', 'BGBBGB']))
 # print(twoPluses(['GGGGGG', 'GGGGGG', 'GGGGGG', 'GGGGGG', 'GGGGGG', 'GGGGGG']))
-print(twoPluses(['GGGGGGGG', 'GBGBGGBG', 'GBGBGGBG', 'GGGGGGGG', 'GBGBGGBG', 'GGGGGGGG', 'GBGBGGBG', 'GGGGGGGG']))
+# print(twoPluses(['GGGGGGGG', 'GBGBGGBG', 'GBGBGGBG', 'GGGGGGGG', 'GBGBGGBG', 'GGGGGGGG', 'GBGBGGBG', 'GGGGGGGG']))
+print(twoPluses(['BBBGBGBBB', 'BBBGBGBBB', 'BBBGBGBBB', 'GGGGGGGGG', 'BBBGBGBBB', 'BBBGBGBBB', 'GGGGGGGGG', 'BBBGBGBBB', 'BBBGBGBBB', 'BBBGBGBBB']))
