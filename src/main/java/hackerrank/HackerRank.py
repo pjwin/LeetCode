@@ -698,48 +698,61 @@ def jumpingOnClouds2(c, k):
 #     secondmax = (ret[0] * 4) - 3
 #     return [firstmax * secondmax, [first_i, first_j]]
 
+    #block off the area of the largest plus
+#     newgrid = twoPlusesBlockGrid(grid, max_value1, max_index1)
+    
+    #get the next largest plus
+#     valgrid2 = twoPlusesGetValues(newgrid)
+    
+    #get the next max values
+#     max_value2, max_index2 = twoPlusesGetMax(valgrid2)
+    
+#     return ((max_value1 * 4) - 3) * ((max_value2 * 4) - 3)
+
 def twoPluses(grid):
     #convert list of strings to list of character lists
     for i in range(len(grid)):
         grid[i] = list(grid[i])
+    product = 0
     
     #get the list of possible pluses
-    valgrid1 = twoPlusesValueGrid(grid)
+    valgrid = twoPlusesGetValues(grid)
     
     #get the max value and position in the value grid
-    max_value1, max_index1 = twoPlusesMaxGrid(valgrid1)
+    values = twoPlusesPivot(valgrid)
     
-    #block off the area of the largest plus
-    newgrid = twoPlusesBlockGrid(grid, max_value1, max_index1)
+    for key in reversed(sorted(values.keys())):
+        print(key, values[key])
     
-    #get the next largest plus
-    valgrid2 = twoPlusesValueGrid(newgrid)
-    
-    #get the next max values
-    max_value2, max_index2 = twoPlusesMaxGrid(valgrid2)
-    
-    return ((max_value1 * 4) - 3) * ((max_value2 * 4) - 3)
 
-def twoPlusesMaxGrid(grid):
-    return max((x, (i, j))
-               for i, row in enumerate(grid)
-               for j, x in enumerate(row))
+
+def twoPlusesPivot(grid):
+    #change grid of values to list of values and their positions
+    values = {}
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] in values:
+                values[grid[i][j]].append([i,j])
+            else:
+                values[grid[i][j]] = []
+                values[grid[i][j]].append([i,j])
+    return values
     
-def twoPlusesBlockGrid(grid, max_value, max_index):
+def twoPlusesBlockGrid(grid, value, index):
     #make a copy
     newgrid = copy.deepcopy(grid)
     
-    #block off a plus defined by max_value and max_index
-    x = max_index[0]
-    y = max_index[1]
-    for j in range(y - max_value + 1, y + max_value):
+    #block off a plus defined by value and index
+    x = index[0]
+    y = index[1]
+    for j in range(y - value + 1, y + value):
         newgrid[x][j] = 'B'
-    for i in range(x - max_value + 1, x + max_value):
+    for i in range(x - value + 1, x + value):
         newgrid[i][y] = 'B'
     
     return newgrid
 
-def twoPlusesValueGrid(grid):
+def twoPlusesGetValues(grid):
     #create a grid of plus values
     valgrid = [list('0') * len(grid[0]) for i in range(len(grid))]
     
