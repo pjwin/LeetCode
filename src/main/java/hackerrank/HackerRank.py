@@ -670,45 +670,6 @@ def jumpingOnClouds2(c, k):
         e -= (1 + 2 * c[pos])
     return e
 
-    #create a copy
-#     newgrid = copy.deepcopy(grid)
-#     ret = twoPlusesHelper1(grid)
-#     firstmax = ret[0]
-# 
-#     ret = twoPlusesHelper1(newgrid)
-#     secondmax = ret[0]
-#     return max(firstmax, secondmax)
-
-# def twoPlusesHelper1(grid):
-#     
-#     #get the max value in the first grid, and the location of the max
-#     ret = twoPlusesHelper2(grid)
-#     firstmax = (ret[0] * 4) - 3
-#     first_i = ret[1][0]
-#     first_j = ret[1][1]
-#     
-#     #block off the first plus
-#     for j in range(first_j - ret[0] + 1, first_j + ret[0]):
-#         grid[first_i][j] = 'B'
-#     for i in range(first_i - ret[0] + 1, first_i + ret[0]):
-#         grid[i][first_j] = 'B'
-# 
-#     #find the second largest plus that doesn't overlap the first
-#     ret = twoPlusesHelper2(grid)
-#     secondmax = (ret[0] * 4) - 3
-#     return [firstmax * secondmax, [first_i, first_j]]
-
-    #block off the area of the largest plus
-#     newgrid = twoPlusesBlockGrid(grid, max_value1, max_index1)
-    
-    #get the next largest plus
-#     valgrid2 = twoPlusesGetValues(newgrid)
-    
-    #get the next max values
-#     max_value2, max_index2 = twoPlusesGetMax(valgrid2)
-    
-#     return ((max_value1 * 4) - 3) * ((max_value2 * 4) - 3)
-
 def twoPluses(grid):
     #convert list of strings to list of character lists
     for i in range(len(grid)):
@@ -716,37 +677,20 @@ def twoPluses(grid):
     product = 0
     
     #get the list of possible pluses
-    valgrid = twoPlusesGetValues(grid)
-    
-    #get the max value and position in the value grid
-    values = twoPlusesPivot(valgrid)
+    values = twoPlusesGetValues(grid)
     
     for key in reversed(sorted(values.keys())):
         for coords in values[key]:
             newgrid = twoPlusesBlockGrid(grid, key, coords)
-            newvalgrid = twoPlusesGetValues(newgrid)
-            newvals = twoPlusesPivot(newvalgrid)
+            newvals = twoPlusesGetValues(newgrid)
             product = max(product, (((key * 4) - 3) * ((max(newvals) * 4) - 3)))
-        
+        #Also try with a smaller plus in the same spot
         for coords in values[key]:
             newgrid = twoPlusesBlockGrid(grid, key - 1, coords)
-            newvalgrid = twoPlusesGetValues(newgrid)
-            newvals = twoPlusesPivot(newvalgrid)
+            newvals = twoPlusesGetValues(newgrid)
             product = max(product, ((((key - 1) * 4) - 3) * ((max(newvals) * 4) - 3)))
         
     return product
-
-def twoPlusesPivot(grid):
-    #change grid of values to list of values and their positions
-    values = {}
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] in values:
-                values[grid[i][j]].append([i,j])
-            else:
-                values[grid[i][j]] = []
-                values[grid[i][j]].append([i,j])
-    return values
     
 def twoPlusesBlockGrid(grid, value, index):
     #make a copy
@@ -765,7 +709,7 @@ def twoPlusesBlockGrid(grid, value, index):
 def twoPlusesGetValues(grid):
     #create a grid of plus values
     valgrid = [list('0') * len(grid[0]) for i in range(len(grid))]
-    
+    values = {}
     #right
     for i in range(len(grid)):
         tmp = 0
@@ -775,7 +719,6 @@ def twoPlusesGetValues(grid):
             else:
                 tmp = 0
             valgrid[i][j] = tmp
-    
     #left
     for i in range(len(grid)):
         tmp = 0
@@ -785,7 +728,6 @@ def twoPlusesGetValues(grid):
             else:
                 tmp = 0
             valgrid[i][j] = min(tmp, valgrid[i][j])
-    
     #down
     for i in range(len(grid[0])):
         tmp = 0
@@ -795,7 +737,6 @@ def twoPlusesGetValues(grid):
             else:
                 tmp = 0
             valgrid[j][i] = min(tmp, valgrid[j][i])
-    
     #up
     for i in range(len(grid[0])):
         tmp = 0
@@ -806,7 +747,15 @@ def twoPlusesGetValues(grid):
                 tmp = 0
             valgrid[j][i] = min(tmp, valgrid[j][i])
     
-    return valgrid
+    values = {}
+    for i in range(len(valgrid)):
+        for j in range(len(valgrid[i])):
+            if valgrid[i][j] in values:
+                values[valgrid[i][j]].append([i,j])
+            else:
+                values[valgrid[i][j]] = []
+                values[valgrid[i][j]].append([i,j])
+    return values
 
 # print(twoPluses(['GGGGGG', 'GBBBGB', 'GGGGGG', 'GGBBGB', 'GGGGGG']))
 # print(twoPluses(['BGBBGB', 'GGGGGG', 'BGBBGB', 'GGGGGG', 'BGBBGB', 'BGBBGB']))
