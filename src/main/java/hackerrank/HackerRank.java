@@ -117,9 +117,9 @@ public class HackerRank {
         for (int x : grades){
             if (x >= 38) {
                 if ((x + 1) % 5 == 0) {
-                    grades.set(i, new Integer(x + 1));
+//                    grades.set(i, new Integer(x + 1));
                 } else if ((x + 2) % 5 == 0) {
-                    grades.set(i, new Integer(x + 2));
+//                    grades.set(i, new Integer(x + 2));
                 }
             }
             i++;
@@ -562,7 +562,11 @@ public class HackerRank {
 		
 		int[] arr = new int[] {1,2,3};
 		for(int i = 0; i < arr.length; i++) System.out.println(arr[i]);
-		
+
+        int[] arr1 = new int[10];
+        for (int i: arr1) {
+            System.out.println(i);
+        }
 	}
 
 }
