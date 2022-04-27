@@ -12,11 +12,13 @@ public class RemoveKDigits {
             if (res.length() == 0 && cur == '0') continue;
             res.append(cur);
         }
+
         while (k > 0 && res.length() > 0) {
             res.deleteCharAt(res.length() - 1);
             k--;
         }
-        return res.length()==0?"0":res.toString();
+
+        return res.length() == 0 ? "0" : res.toString();
     }
 
     public static void main(String[] args) {
