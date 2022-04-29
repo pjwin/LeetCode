@@ -15,7 +15,7 @@ public class PascalTriangle {
     
     public List<Integer> getRow2(int rowIndex) {
 		if (rowIndex < 0) return null;
-		List<Integer> result = new ArrayList<Integer>();
+		List<Integer> result = new ArrayList<>();
 		for (int i = 0; i <= rowIndex; i++) {
 			result.add(0, 1);
 			for (int j = 1; j < i; j++) {
@@ -44,9 +44,9 @@ public class PascalTriangle {
 
 	public List<List<Integer>> generate(int numRows) {
 		if (numRows < 0) return null;
-		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		List<List<Integer>> result = new ArrayList<>();
 		for (int i = 0; i < numRows; i++) {
-			List<Integer> row = new ArrayList<Integer>();
+			List<Integer> row = new ArrayList<>();
 			for (int j = 0; j <= i; j++) {
 				if (j == 0 || j == i) {
 					row.add(1);
