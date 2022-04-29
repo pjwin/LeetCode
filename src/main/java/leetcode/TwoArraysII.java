@@ -1,11 +1,10 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TwoArraysII {
 
-    public int[] intersect(int[] nums1, int[] nums2) {
+    public int[] intersect2(int[] nums1, int[] nums2) {
         int[] numsone = new int[1001];
         int[] numstwo = new int[1001];
         List<Integer> ret = new ArrayList<>();
@@ -26,6 +25,29 @@ public class TwoArraysII {
         }
 
         return ret.stream().mapToInt(i -> i).toArray();
+    }
+
+    public int[] intersect(int[] nums1, int[] nums2) {
+        if (nums1.length > nums2.length) {
+            return intersect(nums2, nums1);
+        }
+
+        Map<Integer, Integer> m = new HashMap<>();
+        for (int n : nums1) {
+            m.put(n, m.getOrDefault(n, 0) + 1);
+        }
+
+        int k = 0;
+
+        for (int n : nums2) {
+            int cnt = m.getOrDefault(n, 0);
+            if (cnt > 0) {
+                nums1[k++] = n;
+                m.put(n, cnt - 1);
+            }
+        }
+
+        return Arrays.copyOfRange(nums1, 0, k);
     }
 
     public static void main(String[] args) {
