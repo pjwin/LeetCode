@@ -10,16 +10,13 @@ public class Search2DMatrix {
         while (top <= bottom) {
             int mid = top + ((bottom - top) / 2);
             if (target == matrix[mid][0]) return true;
-            if (target > matrix[mid][0]) {
-                top = mid + 1;
-            } else {
-                bottom = mid - 1;
-            }
+            if (target > matrix[mid][0]) top = mid + 1;
+            else bottom = mid - 1;
         }
 
         //binary search the row for the element
         int left = 0;
-        bottom = bottom > 0 ? bottom : 0;
+        bottom = Math.max(bottom, 0);
         int right = matrix[bottom].length > 0 ? matrix[bottom].length - 1 : 0;
 
         while (left <= right) {
@@ -31,7 +28,6 @@ public class Search2DMatrix {
                 right = mid - 1;
             }
         }
-
         return false;
     }
 
