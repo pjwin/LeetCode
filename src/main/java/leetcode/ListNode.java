@@ -10,6 +10,7 @@ public class ListNode {
 	ListNode(int x) {
 		val = x;
 	}
+	ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 
 	public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 		if (l1 == null && l2 == null) return null;
